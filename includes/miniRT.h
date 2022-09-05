@@ -18,6 +18,8 @@ typedef struct s_data
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 }			t_data;
+# include "parser.h"
+
 
 void	mlx_start(t_data *data);
 

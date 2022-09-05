@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_protect.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pvznuzda <pashavznuzdajev@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/07 16:12:41 by fbruggem          #+#    #+#             */
-/*   Updated: 2022/06/07 16:50:24 by fbruggem         ###   ########.fr       */
+/*   Updated: 2022/09/05 16:34:06 by pvznuzda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 int	del_ptr(void **ptr, int n);
-
+// if (ft_protect(3, p1, p2, p3));
 int	ft_protect(int n, ...)
 {
 	va_list	list;
