@@ -1,10 +1,5 @@
 #include "../includes/miniRT.h"
 
-typedef struct s_data
-{
-	t_scene scene;
-}			t_data;
-
 /*
 A 0.2 255,255,255
 C -50,0,20 0,0,0 70
@@ -14,10 +9,10 @@ sp 0,0,20 20 255,0,0
 cy 50.0,0.0,20.6 0,0,1.0 14.2 21.42 10,0,255
 */
 
-void	get_specifier(t_data *data, char *spec)
-{
-	if (ft_strncmp(spec, ))
-}
+// void	get_specifier(t_data *data, char *spec)
+// {
+// 	if (ft_strncmp(spec, ));
+// }
 
 void	parse_line(t_data *data, char *line)
 {

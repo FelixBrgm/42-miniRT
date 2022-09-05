@@ -5,10 +5,14 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
-# include "objects.h"
-# include "scene.h"
+
 # include "vector.h"
-# include "libraries/libs/libs.h"
+# include "../libraries/libs/libs.h"
 # include "scene.h"
+
+typedef struct s_data
+{
+	t_scene scene;
+}			t_data;
 
 #endif
