@@ -9,6 +9,7 @@ SRC := sources/
 INPUT := input/
 VECTOR := vector/
 MLX := mlx/
+RENDER := render/
 
 CFILES_INPUT := input_parser.c
 CFILES_INPUT := $(addprefix $(INPUT), $(CFILES_INPUT))
@@ -19,8 +20,11 @@ CFILES_VECTOR := $(addprefix $(VECTOR), $(CFILES_VECTOR))
 CFILES_MLX := mlx_start.c
 CFILES_MLX := $(addprefix $(MLX), $(CFILES_MLX))
 
+CFILES_RENDER := render.c
+CFILES_RENDER := $(addprefix $(RENDER), $(CFILES_RENDER))
 
-CFILES := main.c $(CFILES_INPUT) $(CFILES_VECTOR) $(CFILES_MLX)
+
+CFILES := main.c $(CFILES_INPUT) $(CFILES_VECTOR) $(CFILES_MLX) $(CFILES_RENDER)
 CFILES := $(addprefix $(SRC), $(CFILES))
 OFILES := $(CFILES:.c=.o)
 
