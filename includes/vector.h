@@ -1,7 +1,7 @@
 #ifndef VECTOR
 # define VECTOR
 
-# include "miniRT.h"
+
 
 typedef struct s_vector
 {

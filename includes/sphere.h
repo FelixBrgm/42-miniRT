@@ -1,8 +1,8 @@
 #ifndef SPHERE
 # define SPHERE
 
-# include "miniRT.h"
 # include "colors.h"
+# include "vector.h"
 
 typedef struct s_sphere
 {

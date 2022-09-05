@@ -1,8 +1,9 @@
 #ifndef PLANE
 # define PLANE
 
-# include "miniRT.h"
+
 # include "colors.h"
+# include "vector.h"
 
 typedef struct s_plane 
 {

@@ -9,5 +9,6 @@
 # include "scene.h"
 # include "vector.h"
 # include "libraries/libs/libs.h"
+# include "scene.h"
 
 #endif
