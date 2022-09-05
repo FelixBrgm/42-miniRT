@@ -1,7 +1,8 @@
 #ifndef SCENE
 # define SCENE
 
-#include "miniRT.h"
+# include "object.h"
+# include "light.h"
 
 typedef struct s_camera
 {

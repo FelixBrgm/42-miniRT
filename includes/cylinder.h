@@ -1,9 +1,8 @@
 #ifndef CYLINDER
 # define CYLINDER
 
-# include "miniRT.h"
+# include "vector.h"
 # include "colors.h"
-
 
 typedef struct s_cylinder
 {

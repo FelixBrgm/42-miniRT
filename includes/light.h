@@ -1,7 +1,7 @@
 #ifndef LIGHT
 # define LIGHT
 
-#include "miniRT.h"
+# include "vector.h"
 
 typedef struct s_light
 {
