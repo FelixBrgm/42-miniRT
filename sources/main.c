@@ -2,41 +2,20 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <memory.h>
-#define WIDTH 256
-#define HEIGHT 256
 
-mlx_image_t	*g_img;
-
-void	hook(void *param)
+typedef struct s_data
 {
-	mlx_t	*mlx;
+	t_scene scene;
+}			t_data;
 
-	mlx = param;
-	if (mlx_is_key_down(param, MLX_KEY_ESCAPE))
-		mlx_close_window(param);
-	if (mlx_is_key_down(param, MLX_KEY_UP))
-		g_img->instances[0].y -= 5;
-	if (mlx_is_key_down(param, MLX_KEY_DOWN))
-		g_img->instances[0].y += 5;
-	if (mlx_is_key_down(param, MLX_KEY_LEFT))
-		g_img->instances[0].x -= 5;
-	if (mlx_is_key_down(param, MLX_KEY_RIGHT))
-		g_img->instances[0].x += 5;
-}
-
-int32_t	main(void)
+int main(int argc, char **argv)
 {
-	mlx_t	*mlx;
+	t_data	*data;
 
-	mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
-	if (!mlx)
-		exit(EXIT_FAILURE);
-	g_img = mlx_new_image(mlx, 128, 128);
-	memset(g_img->pixels, 255, g_img->width * g_img->height * sizeof(int));
-	mlx_image_to_window(mlx, g_img, 0, 0);
-	mlx_loop_hook(mlx, &hook, mlx);
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
-	return (EXIT_SUCCESS);
+	data = malloc(sizeof(t_data));
+	// if (!data)
+		//exit with code -1
+	input_parser(data);
+	printf("done!\n");
+	return (0);
 }

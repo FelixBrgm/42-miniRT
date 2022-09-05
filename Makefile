@@ -1,6 +1,8 @@
 CC := gcc
 CFLAGS :=
 
+
+sources_path = $(addprefix ./sources/, $(sources))
 NAME := miniRT
 
 SRC := sources/
@@ -24,7 +26,10 @@ OFILES := $(CFILES:.c=.o)
 
 
 all: $(NAME)
-
+  
+$(NAME): $(objs_path)
+	make -C libraries/mlxlib
+	$(CC) $(CFLAGS) -o $(NAME) $(objs_path) libraries/mlxlib/libmlx42.a -I include -lglfw -L "/Users/$(USER)/goinfre/.brew/opt/glfw/lib/"
 $(NAME): $(OFILES)
 	make -C libraries/mlxlib
 	make -C libraries/libs
@@ -34,6 +39,7 @@ clean:
 	rm -rf $(OFILES)
 
 fclean: clean
+	make fclean -C libraries/mlxlib
 	rm -rf $(NAME)
 
 re: fclean all
