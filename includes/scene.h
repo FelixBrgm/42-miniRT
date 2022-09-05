@@ -3,6 +3,13 @@
 
 #include "miniRT.h"
 
+typedef struct s_camera
+{
+	t_vector	position;
+	t_vector	rotation;
+	int			fov;
+}				t_camera;
+
 typedef struct s_scene
 {
 	t_camera		camera;
@@ -11,6 +18,5 @@ typedef struct s_scene
 	t_light			**light;
 	
 }				t_scene;
-
 
 #endif
