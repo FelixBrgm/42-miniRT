@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   miniRT.h                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/05 10:49:32 by fbruggem          #+#    #+#             */
-/*   Updated: 2022/09/05 11:17:05 by fbruggem         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MINIRT
 # define MINIRT
 
@@ -37,7 +25,7 @@ typedef struct s_plane
 typedef struct s_sphere
 {
 	t_vector	position;
-	t_color		color;
+	t_colors		color;
 	double		radius
 }				t_sphere;
 
@@ -45,7 +33,7 @@ typedef struct s_cylinder
 {
 	t_vector	position;
 	t_vector	rotation;
-	t_color		color;
+	t_colors		color;
 	double		radius;
 	double		height;
 }				t_cylinder;
@@ -75,7 +63,7 @@ typedef struct s_colors
 typedef struct s_scene
 {
 	t_camera		camera;
-	t_light_ambient	light_ambient;
+	// t_light_ambient	light_ambient;
 	t_obj			**objs;
 	t_light			**light;
 	
