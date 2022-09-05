@@ -9,10 +9,11 @@
 # include "vector.h"
 # include "../libraries/libs/libs.h"
 # include "scene.h"
-
 typedef struct s_data
 {
 	t_scene scene;
 }			t_data;
+# include "parser.h"
+
 
 #endif

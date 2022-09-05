@@ -10,7 +10,7 @@ INPUT := input/
 VECTOR := vector/
 MLX := mlx/
 
-CFILES_INPUT := 
+CFILES_INPUT := input_parser.c
 CFILES_INPUT := $(addprefix $(INPUT), $(CFILES_INPUT))
 
 CFILES_VECTOR := vector_operations.c vector_utils.c
@@ -36,6 +36,7 @@ $(NAME): $(OFILES)
 	$(CC) $(CFLAGS) -o $(NAME) $(OFILES) libraries/libs/libs.a libraries/mlxlib/libmlx42.a -I include -lglfw -L "/Users/$(USER)/goinfre/.brew/opt/glfw/lib/"
 
 clean:
+	make clean -C libraries/libs
 	rm -rf $(OFILES)
 
 fclean: clean

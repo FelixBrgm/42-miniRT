@@ -7,7 +7,6 @@ int main(int argc, char **argv)
 	data = malloc(sizeof(t_data));
 	// if (!data)
 		//exit with code -1
-	// input_parser(data);
-	printf("done!\n");
+	parse_input(data, argc, argv);
 	return (0);
 }
