@@ -3,9 +3,9 @@
 /**
  * @brief Calculates the dot product of 2 vectors
  */
-int	vector_dot(t_vector v1, t_vector v2)
+double	vector_dot(t_vector v1, t_vector v2)
 {
-	int	dot;
+	double	dot;
 
 	dot = 0;
 	dot += v1.x * v2.x;
