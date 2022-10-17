@@ -3,6 +3,6 @@
 
 # include "miniRT.h"
 
-void	parse_input(t_data *data, int argc, char **argv);
+int	parse_input(t_data *data, int argc, char **argv);
 
 #endif

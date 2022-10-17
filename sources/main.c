@@ -8,6 +8,10 @@ int main(int argc, char **argv)
 	// mlx_start(data);
 	// if (!data)
 		//exit with code -1
-	parse_input(data, argc, argv);
+	if (parse_input(data, argc, argv) == -1)
+	{
+		printf("Error in parser.\n"); // CLEAN EXIT (free mlx)
+		return (0);
+	}
 	return (0);
 }

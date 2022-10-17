@@ -3,7 +3,7 @@
 /*
 A 0.2 255,255,255
 C -50,0,20 0,0,0 70
-L -40,0,30 0.7 255,255,255
+L -40,0,30 0.7
 pl 0,0,0 0,1.0,0 255,0,225
 sp 0,0,20 20 255,0,0
 cy 50.0,0.0,20.6 0,0,1.0 14.2 21.42 10,0,255
@@ -41,7 +41,50 @@ int	check_arguments(int argc, char **argv)
 	return (fd);
 }
 
-int	read_into_list(int fd, t_list **line_list)
+int	count_file_lines(char *filename)
+{
+	int 	fd;
+	int		line_count;
+	char	buffer[1];
+
+	line_count = 1;
+	fd = open(filename, O_RDONLY);
+	if (fd == -1)
+		return (0);
+	while (read(fd, buffer, 1))
+	{
+		if (buffer[0] == '\n')
+			line_count++;
+	}
+	return (line_count);
+}
+
+void	free_line_list(t_list **list)
+{
+	t_list	*current;
+	t_list	*temp;
+
+	current = *list;
+	while (current)
+	{
+		temp = current;
+		current = current->next;
+		free(temp->content);
+		free(temp);
+	}
+}
+
+void display_list(t_list *list)
+{
+	while (list)
+	{
+		printf("%s", list->content);
+		list = list->next;
+	}
+	printf("\n");
+}
+
+int	read_into_list(int fd, t_list **line_list, char **argv)
 {
 	t_list	*new_item;
 	char	*line;
@@ -55,24 +98,18 @@ int	read_into_list(int fd, t_list **line_list)
 			eof = 1;
 		else if (ft_strncmp(line, "\n", 2))
 		{
-			
-			new_item = ft_lstnew((void *)(ft_strdup(line)));
-			if (!new_item->content)
-				return (1); // MALLOC Error
+			new_item = ft_lstnew((void *)line);
+			if (!new_item)
+			{
+				free_line_list(line_list);
+				return (1); // ft_lstnew malloc failed. OK
+			}
 			ft_lstadd_back(line_list, new_item);
 		}
-		free(line);
+		else
+			free(line);
 	}
 	return (0);
-}
-
-void display_list(t_list *list)
-{
-	while (list)
-	{
-		printf("%s", list->content);
-		list = list->next;
-	}
 }
 
 char *get_identifier(char *line)
@@ -98,6 +135,8 @@ char *get_identifier(char *line)
 
 int	check_identifier(char *identifier, int identifier_count[4])
 {
+	if (!identifier)
+		return (1);
 	if (!ft_strncmp(identifier, "A", 2))
 	{
 		identifier_count[0] = identifier_count[0] + 1;
@@ -140,7 +179,7 @@ int	check_identifiers(t_list *line_list)
 	identifier_count[3] = 0;
 	while (line_list)
 	{
-		identifier = get_identifier(line_list->content); // might be NULL
+		identifier = get_identifier(line_list->content); // might be NULL OK.
 		check_res = check_identifier(identifier, identifier_count);
 		free(identifier);
 		if (check_res)
@@ -263,7 +302,7 @@ int check_light(char *line)
 	char	**line_split;
 
 	line_split = ft_split(line, ' '); // PROTECT SPLIT!
-	if (get_split_len(line_split) != 4)
+	if (get_split_len(line_split) != 3)
 	{
 		printf("Wrong amount of elements for light.\n");
 		return (-1);
@@ -274,7 +313,6 @@ int check_light(char *line)
 		printf("Wrong brightness format.\n");
 		return (-1);
 	}
-	check_coords(line_split[3]);
 	return (0);
 }
 
@@ -299,7 +337,8 @@ int check_sphere(char *line)
 	return (0);
 }
 
-// pl 0,0,0 0,1.0,0 255,0,225
+// pl 0,0,0 0,1.0,0 255,0,225 
+// ADD NORMALIZED CHECK OF COORDS
 int check_plane(char *line)
 {
 	char	**line_split;
@@ -317,6 +356,7 @@ int check_plane(char *line)
 }
 
 // cy 50.0,0.0,20.6 0,0,1.0 14.2 21.42 10,0,255
+// ADD NORMALIZED CHECK OF COORDS
 int check_cylinder(char *line)
 {
 	char	**line_split;
@@ -366,6 +406,7 @@ int	check_lines(t_list *line_list)
 		if (check_res == -1)
 			return (-1);
 		line_list = line_list->next;
+		free(identifier);
 	}
 	return (0);
 }
@@ -381,25 +422,17 @@ float     ft_atof(const char *str)
 	negative = 0;
 	result = 0;
 	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-		negative = 1;
-		i++;
-	}
+		if (str[i++] == '-')
+			negative = 1;
 	while (str[i] >= '0' && str[i] <= '9')
-	{
-			result = result * 10 + (str[i] - '0');
-			i++;
-	}
+			result = result * 10 + (str[i++] - '0');
 	if (str[i] == '.')
 	{
-		i++;
 		divider = 10;
-		while (str[i] >= '0' && str[i] <= '9')
+		while (str[++i] >= '0' && str[i] <= '9')
 		{
 			result += (str[i] - '0') / divider;
 			divider *= 10;
-			i++;
 		}
 	}
 	if (negative)
@@ -407,96 +440,228 @@ float     ft_atof(const char *str)
 	return (result);
 }
 
-int	parse_ambient(t_data *data, char *line)
+int	parse_vector(char *vector_line, t_vector *vector)
 {
-	//parse line and assign data to data->scene.ambient
+	char	**vector_split;
+
+	vector_split = ft_split(vector_line, ',');
+	// CHECK COORDS SPLIT FOR FAILURE! return -1
+	vector->x = ft_atof(vector_split[0]);
+	vector->y = ft_atof(vector_split[1]);
+	vector->z = ft_atof(vector_split[2]);
+	return (0);
+}
+
+int	parse_color(char *color_line, t_colors *color)
+{
+	char	**color_split;
+
+	color_split = ft_split(color_line, ',');
+	// CHECK COORDS SPLIT FOR FAILURE! return -1
+	color->r = ft_atof(color_split[0]);
+	color->g = ft_atof(color_split[1]);
+	color->b = ft_atof(color_split[2]);
+	return (0);
 }
 
 int	parse_camera(t_data *data, char *line)
 {
 	//parse line and assign data to data->scene.camera
+	char	**line_split;
+
+	line_split = ft_split(line, ' '); // PROTECT SPLIT!
+	parse_vector(line_split[1], &data->scene.camera.position);
+	parse_vector(line_split[2], &data->scene.camera.rotation);
+	data->scene.camera.fov = ft_atoi(line_split[3]);
+	return (0);
 }
 
 int	parse_light(t_data *data, char *line)
 {
-	//parse line and assign data to data->scene.light
+	char	**line_split;
+
+	line_split = ft_split(line, ' '); // PROTECT SPLIT!
+	parse_vector(line_split[1], &data->scene.light.position);
+	data->scene.light.brightness = ft_atof(line_split[2]);
+	return (0);
+}
+
+int	parse_ambient(t_data *data, char *line)
+{
+	char	**line_split;
+
+	line_split = ft_split(line, ' '); // PROTECT SPLIT!
+	data->scene.ambient.ratio = ft_atof(line_split[1]);
+	parse_color(line_split[2], &data->scene.ambient.color);
+	return (0);
 }
 
 int	parse_sphere(t_data *data, char *line, int *obj_i)
 {
-	//parse line and assign data to data->scene.objs
+	char		**line_split;
+	t_sphere	*sphere;
+
+	sphere = malloc(sizeof(t_sphere));
+	if (!sphere)
+		; // malloc failed.
+	line_split = ft_split(line, ' '); // PROTECT SPLIT!
+	parse_vector(line_split[1], &sphere->position);
+	sphere->radius = ft_atof(line_split[2]) / 2;
+	parse_color(line_split[3], &sphere->color);
+	data->scene.objs[*obj_i].sphere = sphere;
+	data->scene.objs[*obj_i].plane = NULL;
+	data->scene.objs[*obj_i].cylinder = NULL;
+	*obj_i = *obj_i + 1;
+	return (0);
 }
 
 int	parse_plane(t_data *data, char *line, int *obj_i)
 {
-	//parse line and assign data to data->scene.objs
+	char	**line_split;
+	t_plane	*plane;
+
+	plane = malloc(sizeof(t_plane));
+	if (!plane)
+		; // malloc failed.
+	line_split = ft_split(line, ' '); // PROTECT SPLIT!
+	parse_vector(line_split[1], &plane->position);
+	parse_vector(line_split[2], &plane->rotation); // should be normalized
+	parse_color(line_split[3], &plane->color);
+	data->scene.objs[*obj_i].sphere = NULL;
+	data->scene.objs[*obj_i].plane = plane;
+	data->scene.objs[*obj_i].cylinder = NULL;
+	*obj_i = *obj_i + 1;
+	return (0);
 }
 
 int	parse_cylinder(t_data *data, char *line, int *obj_i)
 {
-	//parse line and assign data to data->scene.objs
+	char		**line_split;
+	t_cylinder	*cylinder;
+
+	cylinder = malloc(sizeof(t_cylinder));
+	if (!cylinder)
+		; // malloc failed.
+	line_split = ft_split(line, ' '); // PROTECT SPLIT!
+	parse_vector(line_split[1], &cylinder->position);
+	parse_vector(line_split[2], &cylinder->rotation); // should be normalized
+	cylinder->radius = ft_atof(line_split[3]) / 2;
+	cylinder->height = ft_atof(line_split[4]);
+	parse_color(line_split[5], &cylinder->color);
+	data->scene.objs[*obj_i].sphere = NULL;
+	data->scene.objs[*obj_i].plane = NULL;
+	data->scene.objs[*obj_i].cylinder = cylinder;
+	*obj_i = *obj_i + 1;
+	return (0);
 }
 
-// int	parse_lines(t_data *data, t_list *line_list)
-// {
-// 	char	*identifier;
-// 	int		parse_res;
-// 	int		obj_i;
+int	parse_lines(t_data *data, t_list *line_list)
+{
+	char	*identifier;
+	int		parse_res;
+	int		obj_i;
 
-// 	obj_i = 0;
-// 	while (line_list)
-// 	{
-// 		identifier = get_identifier(line_list->content); //might be NULL
-// 		if (!ft_strncmp(identifier, "A", 2))
-// 			parse_res = parse_ambient(data, line_list->content);
-// 		else if (!ft_strncmp(identifier, "C", 2))
-// 			parse_res = parse_camera(data, line_list->content);
-// 		else if (!ft_strncmp(identifier, "L", 2))
-// 			parse_res = parse_light(data, line_list->content);
-// 		else if (!ft_strncmp(identifier, "sp", 3))
-// 			parse_res = parse_sphere(data, line_list->content, &obj_i);
-// 		else if (!ft_strncmp(identifier, "pl", 3))
-// 			parse_res = parse_plane(data, line_list->content, &obj_i);
-// 		else if (!ft_strncmp(identifier, "cy", 3))
-// 			parse_res = parse_cylinder(data, line_list->content, &obj_i);
-// 		line_list = line_list->next;
-// 	}
-// 	return (0);
-// }
+	obj_i = 0;
+	while (line_list)
+	{
+		identifier = get_identifier(line_list->content); //might be NULL
+		if (!ft_strncmp(identifier, "A", 2))
+			parse_res = parse_ambient(data, line_list->content);
+		else if (!ft_strncmp(identifier, "C", 2))
+			parse_res = parse_camera(data, line_list->content);
+		else if (!ft_strncmp(identifier, "L", 2))
+			parse_res = parse_light(data, line_list->content);
+		else if (!ft_strncmp(identifier, "sp", 3))
+			parse_res = parse_sphere(data, line_list->content, &obj_i);
+		else if (!ft_strncmp(identifier, "pl", 3))
+			parse_res = parse_plane(data, line_list->content, &obj_i);
+		else if (!ft_strncmp(identifier, "cy", 3))
+			parse_res = parse_cylinder(data, line_list->content, &obj_i);
+		line_list = line_list->next;
+		free(identifier);
+	}
+	return (0);
+}
 
+void	display_scene(t_scene scene)
+{
+	int	obj_i;
 
-void	parse_input(t_data *data, int argc, char **argv)
+	printf("===SCENE DATA===\n");
+	printf("Ambient:\nraito: %.2f\ncolor: %i %i %i\n",
+		scene.ambient.ratio,
+		scene.ambient.color.r, scene.ambient.color.g, scene.ambient.color.b);
+	printf("Camera:\npos: %.2f %.2f %.2f\nrotation: %.2f %.2f %.2f\nfov: %i\n",
+		scene.camera.position.x, scene.camera.position.y, scene.camera.position.z,
+		scene.camera.rotation.x, scene.camera.rotation.y, scene.camera.rotation.z,
+		scene.camera.fov);
+	printf("Light:\npos: %.2f %.2f %.2f\nbrightness: %.2f\n",
+		scene.light.position.x, scene.light.position.y, scene.light.position.z,
+		scene.light.brightness);
+	obj_i = 0;
+	while (scene.objs[obj_i].plane || scene.objs[obj_i].sphere || scene.objs[obj_i].cylinder)
+	{
+		if (scene.objs[obj_i].plane)
+		{
+			printf("Plane:\npos: %.2f %.2f %.2f\nrotation: %.2f %.2f %.2f\ncolor: %i %i %i\n",
+			scene.objs[obj_i].plane->position.x, scene.objs[obj_i].plane->position.y, scene.objs[obj_i].plane->position.z,
+			scene.objs[obj_i].plane->rotation.x, scene.objs[obj_i].plane->rotation.y, scene.objs[obj_i].plane->rotation.z,
+			scene.objs[obj_i].plane->color.r, scene.objs[obj_i].plane->color.g, scene.objs[obj_i].plane->color.b);
+		}
+		else if (scene.objs[obj_i].sphere)
+		{
+			printf("Sphere:\npos: %.2f %.2f %.2f\ncolor: %i %i %i\nradius: %.2f\n",
+			scene.objs[obj_i].sphere->position.x, scene.objs[obj_i].sphere->position.y, scene.objs[obj_i].sphere->position.z,
+			scene.objs[obj_i].sphere->color.r, scene.objs[obj_i].sphere->color.g, scene.objs[obj_i].sphere->color.b,
+			scene.objs[obj_i].sphere->radius);
+		}
+		else if (scene.objs[obj_i].cylinder)
+		{
+			printf("Cylinder:\npos: %.2f %.2f %.2f\nrotaion: %.2f %.2f %.2f\nradius: %.2f\nheight: %.2f\ncolor: %i %i %i\n",
+			scene.objs[obj_i].cylinder->position.x, scene.objs[obj_i].cylinder->position.y, scene.objs[obj_i].cylinder->position.z,
+			scene.objs[obj_i].cylinder->rotation.x, scene.objs[obj_i].cylinder->rotation.y, scene.objs[obj_i].cylinder->rotation.z,
+			scene.objs[obj_i].cylinder->radius,
+			scene.objs[obj_i].cylinder->height,
+			scene.objs[obj_i].cylinder->color.r, scene.objs[obj_i].cylinder->color.g, scene.objs[obj_i].cylinder->color.b);
+		}
+		obj_i++;
+	}
+}
+
+int	parse_input(t_data *data, int argc, char **argv)
 {
 	int 	fd;
 	int		obj_count;
 	t_list	*line_list;
 
-
-	printf("float: %f\n", ft_atof("12.354"));
-
 	fd = check_arguments(argc, argv);
 	if (fd == -1)
-		return ;
+		return (-1);
 	line_list = NULL;
-	if (read_into_list(fd, &line_list))
-		return ;
+	if (read_into_list(fd, &line_list, argv))
+		return (-1); // line_list is already freed (or empty), so just exit the programm. OK
 	display_list(line_list);
 	obj_count = check_identifiers(line_list);
 	if (obj_count == -1)
 	{
 		printf("Wrong identifiers.\n");
-		return ;
+		return (-1);
 	}
 	if (check_lines(line_list) == -1)
 	{
-		printf("Check error.\n");
-		// return (-1);
+		printf("Check error.\n"); // free line_list
+		return (-1);
 	}
 	if (obj_count > 0)
 	{
 		data->scene.objs = malloc(sizeof(t_obj) * (obj_count + 1));
 		if (!data->scene.objs)
-			; // MALLOC FAILED, CLEAN EXIT.
+			return (-1); // MALLOC FAILED, CLEAN EXIT. free line_list
+		data->scene.objs[obj_count].plane = NULL;
+		data->scene.objs[obj_count].sphere = NULL;
+		data->scene.objs[obj_count].cylinder = NULL;
 	}
-	//parse_lines(data, line_list);
+	parse_lines(data, line_list);
+	display_scene(data->scene);
+	return (0);
 }

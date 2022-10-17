@@ -5,9 +5,9 @@
 
 typedef struct s_vector
 {
-	double	x;
-	double	y;
-	double	z;
+	float	x;
+	float	y;
+	float	z;
 }				t_vector;
 
 t_vector	vector_add(t_vector v1, t_vector v2);
