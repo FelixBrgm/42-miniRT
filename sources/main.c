@@ -58,7 +58,10 @@ int main(int argc, char **argv)
 
 	// data = data_create();
 	if (parse_input(&data, argc, argv) == -1)
+	{
 		printf("error in parser.\n");
+		return (0);
+	}
 	display_data_main(data);
 	// if (!data)
 		// exit(EXIT_FAILURE);

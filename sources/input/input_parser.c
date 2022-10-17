@@ -200,11 +200,12 @@ int check_coords(char *coords_line)
 // A 0.2 255,255,255
 int check_ambient(char *line)
 {
+	// FREE SPLIT
     char    **line_split;
     line_split = ft_split(line, ' '); // PROTECT SPLIT!
     if (get_split_len(line_split) != 3)
     {
-        printf("Wrong amount of elements for light.\n");
+        printf("Wrong amount of elements for ambient.\n");
         return (-1);
     }
     if (check_float(line_split[1]) == -1)
@@ -212,12 +213,14 @@ int check_ambient(char *line)
         printf("Wrong lighting ratio format.\n");
         return (-1);
     }
-    check_coords(line_split[2]);
+     if (check_coords(line_split[2]) == -1)
+		return (-1);
     return (0);
 }
 // C -50,0,20 0,0,0 70
 int check_camera(char *line)
 {
+	// FREE SPLIT
     char    **line_split;
     line_split = ft_split(line, ' '); // PROTECT SPLIT!
     if (get_split_len(line_split) != 4)
@@ -225,8 +228,10 @@ int check_camera(char *line)
         printf("Wrong amount of elements for camera.\n");
         return (-1);
     }
-    check_coords(line_split[1]);
-    check_coords(line_split[2]);
+    if (check_coords(line_split[1]) == -1)
+		return (-1);
+	if (check_coords(line_split[2]) == -1)
+		return (-1);
     if (check_float(line_split[3]) == -1)
     {
         printf("Wrong FOV format.\n");
@@ -237,6 +242,7 @@ int check_camera(char *line)
 // L -40,0,30 0.7 255,255,255
 int check_light(char *line)
 {
+	// FREE SPLIT
     char    **line_split;
     line_split = ft_split(line, ' '); // PROTECT SPLIT!
     if (get_split_len(line_split) != 4)
@@ -244,61 +250,74 @@ int check_light(char *line)
         printf("Wrong amount of elements for light.\n");
         return (-1);
     }
-    check_coords(line_split[1]);
+    if (check_coords(line_split[1]) == -1)
+		return (-1);
     if (check_float(line_split[2]) == -1)
     {
         printf("Wrong brightness format.\n");
         return (-1);
     }
-    check_coords(line_split[3]);
+    if (check_coords(line_split[3]) == -1)
+		return (-1);
     return (0);
 }
 // sp 0,0,20 20 255,0,0
 int check_sphere(char *line)
 {
+	// FREE SPLIT
     char    **line_split;
     line_split = ft_split(line, ' '); // PROTECT SPLIT!
     if (get_split_len(line_split) != 4)
     {
-        printf("Wrong amount of elements for light.\n");
+        printf("Wrong amount of elements for sphere.\n");
         return (-1);
     }
-    check_coords(line_split[1]);
+	if (check_coords(line_split[1]) == -1)
+		return (-1);
     if (check_float(line_split[2]) == -1)
     {
         printf("Wrong diameter format.\n");
         return (-1);
     }
-    check_coords(line_split[3]);
+	if (check_coords(line_split[3]) == -1)
+		return (-1);
     return (0);
 }
 // pl 0,0,0 0,1.0,0 255,0,225
 int check_plane(char *line)
 {
+	// FREE SPLIT
     char    **line_split;
     line_split = ft_split(line, ' '); // PROTECT SPLIT!
     if (get_split_len(line_split) != 4)
     {
-        printf("Wrong amount of elements for light.\n");
+        printf("Wrong amount of elements for plane.\n");
         return (-1);
     }
-    check_coords(line_split[1]);
-    check_coords(line_split[2]); // should be normalized to values from 0.0 to 1.0!
-    check_coords(line_split[3]);
+	if (check_coords(line_split[1]) == -1)
+		return (-1);
+    if (check_coords(line_split[2]) == -1) // should be normalized to values from 0.0 to 1.0!
+		return (-1);
+    if (check_coords(line_split[3]) == -1)
+		return (-1);
+    
     return (0);
 }
 // cy 50.0,0.0,20.6 0,0,1.0 14.2 21.42 10,0,255
 int check_cylinder(char *line)
 {
+	// FREE SPLIT
     char    **line_split;
     line_split = ft_split(line, ' '); // PROTECT SPLIT!
     if (get_split_len(line_split) != 6)
     {
-        printf("Wrong amount of elements for light.\n");
+        printf("Wrong amount of elements for cylinder.\n");
         return (-1);
     }
-    check_coords(line_split[1]);
-    check_coords(line_split[2]); // should be normalized to values from 0.0 to 1.0!
+	if (check_coords(line_split[1]) == -1)
+		return (-1);
+	if (check_coords(line_split[2]) == -1) // should be normalized to values from 0.0 to 1.0!
+		return (-1);
     if (check_float(line_split[3]) == -1)
     {
         printf("Wrong diameter format.\n");
@@ -309,7 +328,8 @@ int check_cylinder(char *line)
         printf("Wrong height format.\n");
         return (-1);
     }
-    check_coords(line_split[5]);
+	if (check_coords(line_split[5]) == -1)
+		return (-1);
     return (0);
 }
 int check_lines(t_list *line_list)
@@ -456,7 +476,6 @@ int parse_plane(t_data *data, char *line, int *obj_i)
 	char	**coords_split;
 
 	data->scene.objs[*obj_i].plane = malloc(sizeof(t_plane));
-	printf("seg\n");
 	// protect malloc
 	line_split = ft_split(line, ' ');
 	coords_split = ft_split(line_split[1], ',');

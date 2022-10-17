@@ -33,16 +33,16 @@ OFILES := $(CFILES:.c=.o)
 
 all: $(NAME)
   
-$(NAME): $(OFILES)
-	@$ make -C libraries/libs
-	$(CC) $(CFLAGS) -o $(NAME) $(OFILES) libraries/libs/libs.a
+# $(NAME): $(OFILES)
+# 	@$ make -C libraries/libs
+# 	$(CC) $(CFLAGS) -o $(NAME) $(OFILES) libraries/libs/libs.a
 
 # $(CC) $(CFLAGS) -o $(NAME) $(objs_path) libraries/mlxlib/libmlx42.a -I include -lglfw -L "/Users/$(USER)/goinfre/.brew/opt/glfw/lib/"
 
-# $(NAME): $(OFILES)
-# 	@$ make -C libraries/libs
-# 	@$ make -C libraries/mlxlib
-# 	$(CC) $(CFLAGS) -o $(NAME) $(OFILES) libraries/libs/libs.a libraries/mlxlib/libmlx42.a -I include -lglfw -L "/Users/$(USER)/goinfre/.brew/opt/glfw/lib/"
+$(NAME): $(OFILES)
+	@$ make -C libraries/libs
+	@$ make -C libraries/mlxlib
+	$(CC) $(CFLAGS) -o $(NAME) $(OFILES) libraries/libs/libs.a libraries/mlxlib/libmlx42.a -I include -lglfw -L "/Users/$(USER)/goinfre/.brew/opt/glfw/lib/"
 
 
 clean:
