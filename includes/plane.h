@@ -9,7 +9,7 @@ typedef struct s_plane
 {
 	t_vector	position;
 	t_vector	rotation;
-	t_color		colors;
+	t_color		color;
 }				t_plane;
 
 #endif

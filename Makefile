@@ -24,23 +24,25 @@ CFILES_RENDER := render.c calculate.c
 CFILES_RENDER := $(addprefix $(RENDER), $(CFILES_RENDER))
 
 
-CFILES := main.c $(CFILES_INPUT) $(CFILES_MLX) $(CFILES_VECTOR) $(CFILES_RENDER)
+# CFILES := main.c $(CFILES_INPUT) $(CFILES_MLX) $(CFILES_VECTOR) $(CFILES_RENDER)
+CFILES := main.c $(CFILES_INPUT)
+
 CFILES := $(addprefix $(SRC), $(CFILES))
 OFILES := $(CFILES:.c=.o)
 
 
 all: $(NAME)
   
-# $(NAME): $(objs_path)
-# 	make -C libraries/mlxlib
-# 	$(CC) $(CFLAGS) -o $(NAME) $(objs_path) libraries/mlxlib/libmlx42.a -I include -lglfw -L "/Users/$(USER)/goinfre/.brew/opt/glfw/lib/"
-
-# $(CC) $(CFLAGS) -o $(NAME) $(OFILES) libraries/libs/libs.a
-
 $(NAME): $(OFILES)
 	@$ make -C libraries/libs
-	@$ make -C libraries/mlxlib
-	$(CC) $(CFLAGS) -o $(NAME) $(OFILES) libraries/libs/libs.a libraries/mlxlib/libmlx42.a -I include -lglfw -L "/Users/$(USER)/goinfre/.brew/opt/glfw/lib/"
+	$(CC) $(CFLAGS) -o $(NAME) $(OFILES) libraries/libs/libs.a
+
+# $(CC) $(CFLAGS) -o $(NAME) $(objs_path) libraries/mlxlib/libmlx42.a -I include -lglfw -L "/Users/$(USER)/goinfre/.brew/opt/glfw/lib/"
+
+# $(NAME): $(OFILES)
+# 	@$ make -C libraries/libs
+# 	@$ make -C libraries/mlxlib
+# 	$(CC) $(CFLAGS) -o $(NAME) $(OFILES) libraries/libs/libs.a libraries/mlxlib/libmlx42.a -I include -lglfw -L "/Users/$(USER)/goinfre/.brew/opt/glfw/lib/"
 
 
 clean:
