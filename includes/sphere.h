@@ -7,7 +7,7 @@
 typedef struct s_sphere
 {
 	t_vector	position;
-	t_colors	color;
+	t_color		color;
 	double		radius;
 }				t_sphere;
 

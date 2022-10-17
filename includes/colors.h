@@ -1,11 +1,11 @@
 #ifndef COLORS
 # define COLORS
 
-typedef struct s_colors
+typedef struct s_color
 {
-	int	r;
-	int	g;
-	int	b;
-}				t_colors;
+	double	r;
+	double	g;
+	double	b;
+}				t_color;
 
 #endif

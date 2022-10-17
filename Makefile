@@ -20,7 +20,7 @@ CFILES_VECTOR := $(addprefix $(VECTOR), $(CFILES_VECTOR))
 CFILES_MLX := mlx_start.c
 CFILES_MLX := $(addprefix $(MLX), $(CFILES_MLX))
 
-CFILES_RENDER := render.c
+CFILES_RENDER := render.c calculate.c
 CFILES_RENDER := $(addprefix $(RENDER), $(CFILES_RENDER))
 
 
@@ -34,9 +34,10 @@ all: $(NAME)
 $(NAME): $(objs_path)
 	make -C libraries/mlxlib
 	$(CC) $(CFLAGS) -o $(NAME) $(objs_path) libraries/mlxlib/libmlx42.a -I include -lglfw -L "/Users/$(USER)/goinfre/.brew/opt/glfw/lib/"
+
 $(NAME): $(OFILES)
-	make -C libraries/mlxlib
-	make -C libraries/libs
+	@$ make -C libraries/libs
+	@$ make -C libraries/mlxlib
 	$(CC) $(CFLAGS) -o $(NAME) $(OFILES) libraries/libs/libs.a libraries/mlxlib/libmlx42.a -I include -lglfw -L "/Users/$(USER)/goinfre/.brew/opt/glfw/lib/"
 
 clean:

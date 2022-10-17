@@ -17,8 +17,6 @@ cy 50.0,0.0,20.6 0,0,1.0 14.2 21.42 10,0,255
 void	parse_line(t_data *data, char *line)
 {
 	char	**line_split;
-
-
 }
 
 void	parse_input(t_data *data, char argc, char **argv)

@@ -8,7 +8,7 @@ typedef struct s_cylinder
 {
 	t_vector	position;
 	t_vector	rotation;
-	t_colors	color;
+	t_color		color;
 	double		radius;
 	double		height;
 }				t_cylinder;
