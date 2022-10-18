@@ -98,11 +98,15 @@ t_color ray_color(t_ray ray, t_data *data)
 
 		t_vector light = vector_create(100, 0.0, -20);
 		t_ray lightRay = ray_create(intercection, unit_vector(vector_sub(light, intercection)));
-
+		
+		double r = (res.obj->sphere->color.r / 255) * ((data->scene.ambient.color.r / 255) * data->scene.ambient.ratio);
+		double g = (res.obj->sphere->color.g / 255) * ((data->scene.ambient.color.g / 255) * data->scene.ambient.ratio);
+		double b = (res.obj->sphere->color.b / 255) * ((data->scene.ambient.color.b / 255) * data->scene.ambient.ratio);
 		double lightT = get_closest_obj(lightRay, data).t;
 		if (lightT > 0.0)
-			return (color_create(0,0,0));
+			return (color_create(r, g, b));
 
+		// return (color_create(r, g, b));
 		return (color_create(res.obj->sphere->color.r / 255 ,res.obj->sphere->color.g / 255, res.obj->sphere->color.b / 255));
 	}
 	t_vector c1;
