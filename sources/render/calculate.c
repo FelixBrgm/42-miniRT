@@ -42,11 +42,18 @@ double hit_sphere(t_vector center, double radius, t_ray ray)
 }
 
 
-double get_t_object(t_ray ray)
+double get_t_object(t_ray ray, t_data *data)
 {
 	double temp;
-	double t = hit_sphere(vector_create(10.0, 0.0, -20.0), 5, ray);
-	temp = hit_sphere(vector_create(-10.0, 0.0, -20.0), 10, ray);
+	double t;
+
+	t = hit_sphere(vector_create(data->scene.objs[0].sphere->position.x, data->scene.objs[0].sphere->position.y,
+			data->scene.objs[0].sphere->position.z), data->scene.objs[0].sphere->radius, ray);
+	temp = hit_sphere(vector_create(data->scene.objs[1].sphere->position.x, data->scene.objs[1].sphere->position.y,
+			data->scene.objs[1].sphere->position.z), data->scene.objs[1].sphere->radius, ray);
+
+	// t = hit_sphere(vector_create(10.0, 0.0, -20.0), 5, ray);
+	// temp = hit_sphere(vector_create(-10.0, 0.0, -20.0), 10, ray);
 	if ((temp < t || t < 0) && 0 < temp)
 		t = temp;
 
@@ -55,9 +62,9 @@ double get_t_object(t_ray ray)
 
 
 
-t_color ray_color(t_ray ray)
+t_color ray_color(t_ray ray, t_data *data)
 {
-	double t = get_t_object(ray);
+	double t = get_t_object(ray, data);
 
 	if (t > 0.0)
 	{
@@ -66,9 +73,9 @@ t_color ray_color(t_ray ray)
 		t_vector light = vector_create(300, 0.0, -20);
 		t_ray lightRay = ray_create(intercection, unit_vector(vector_sub(light, intercection)));
 
-		double lightT = get_t_object(lightRay);
-		if (lightT > 0.0)
-			return (color_create(0,0,0));
+		// double lightT = get_t_object(lightRay, data);
+		// if (lightT > 0.0)
+			// return (color_create(0,0,0));
 		t_vector N = unit_vector(vector_sub(ray_at(ray, t), vector_create(0,0,-1)));
 		t_vector res = vector_mul_n(vector_create(N.x + 1, N.y + 1, N.z + 1), 0.5);
 		// return (color_create(1,0,0));
@@ -109,7 +116,8 @@ void	calculate(void *param)
 	double viewPortWidth = viewPortHeight * aspectRatio;
 	double focal_length = 1.0;
 
-	t_vector origin = vector_create(0,0,0);
+	t_vector origin = vector_create(data->scene.camera.position.x, data->scene.camera.position.y, data->scene.camera.position.z);
+	// t_vector origin = vector_create(0,0,0);
 	t_vector horizontal = vector_create(viewPortWidth, 0, 0);
 	t_vector vertical = vector_create(0, viewPortHeight, 0);
 	t_vector focal = vector_create(0,0,focal_length);
@@ -125,7 +133,7 @@ void	calculate(void *param)
 			double v = (double) j / (double) (HEIGHT -1);
 			// ft_printf("U: %f | V: %f\n", u, v);
 			t_ray r = ray_create(origin, vector_sub(vector_add(lowerLeftCorner, vector_add(vector_mul_n(horizontal, u), vector_mul_n(vertical, v))), origin));
-			t_color res = ray_color(r);
+			t_color res = ray_color(r, data);
 			int pos = j * WIDTH + i;
 			data->img[pos]->r = res.r;
 			data->img[pos]->g = res.g;

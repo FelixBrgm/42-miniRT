@@ -24,8 +24,8 @@ CFILES_RENDER := render.c calculate.c
 CFILES_RENDER := $(addprefix $(RENDER), $(CFILES_RENDER))
 
 
-# CFILES := main.c $(CFILES_INPUT) $(CFILES_MLX) $(CFILES_VECTOR) $(CFILES_RENDER)
-CFILES := main.c $(CFILES_INPUT)
+CFILES := main.c $(CFILES_INPUT) $(CFILES_MLX) $(CFILES_VECTOR) $(CFILES_RENDER)
+# CFILES := main.c $(CFILES_INPUT)
 
 CFILES := $(addprefix $(SRC), $(CFILES))
 OFILES := $(CFILES:.c=.o)
