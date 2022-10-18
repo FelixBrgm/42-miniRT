@@ -1,5 +1,11 @@
 #include "../../includes/render.h"
 
+typedef struct s_obj_t
+{
+	double	t;
+	t_obj	*obj;
+}				t_obj_t;
+
 
 t_ray ray_create(t_vector orig, t_vector dir)
 {
@@ -35,51 +41,60 @@ double hit_sphere(t_vector center, double radius, t_ray ray)
 	double c = vector_dot(oc, oc) - radius* radius;
 	// ft_printf("A: %d | B: %d | C: %d\n", a, b, c);
 	double discriminant = b*b - 4*a*c;
-	if (discriminant <= 0)
+	if (discriminant < 0.0)
 		return -1.0;
 	else
 		return ((-b - sqrt(discriminant)) / (2.0 * a));
 }
 
 
-double get_t_object(t_ray ray, t_data *data)
+t_obj_t get_closest_obj(t_ray ray, t_data *data)
 {
-	double temp;
-	double t;
+	double temp = -1.0;
+	t_obj_t res;
+	t_obj **objs;
 
-	// t = hit_sphere(vector_create(data->scene.objs[0].sphere->position.x, data->scene.objs[0].sphere->position.y,
-	// 		data->scene.objs[0].sphere->position.z), data->scene.objs[0].sphere->radius, ray);
-	// temp = hit_sphere(vector_create(data->scene.objs[1].sphere->position.x, data->scene.objs[1].sphere->position.y,
-	// 		data->scene.objs[1].sphere->position.z), data->scene.objs[1].sphere->radius, ray);
+	res.t = -1.0;
+	res.obj = NULL;
 
-	t = hit_sphere(vector_create(10.0, 0.0, -20.0), 5, ray);
-	temp = hit_sphere(vector_create(-10.0, 0.0, -20.0), 10, ray);
-	if ((temp < t || t < 0) && 0 < temp)
-		t = temp;
+	objs = data->scene.objs;
 
-	return (t);
+	int i = 0;
+	while (objs[i] != NULL)
+	{
+		if (objs[i]->sphere)
+		{
+			t_sphere *s = objs[i]->sphere;
+			temp = hit_sphere(vector_create(s->position.x, s->position.y, s->position.z), s->radius, ray);
+		}
+		if ((temp < res.t || res.t < 0) && temp > 0)
+		{
+			res.t = temp;
+			res.obj = objs[i];
+		}
+		i++;
+	}
+	return (res);
 }
 
 
 
 t_color ray_color(t_ray ray, t_data *data)
 {
-	double t = get_t_object(ray, data);
+	t_obj_t res = get_closest_obj(ray, data);
 
-	if (t > 0.0)
+	if (res.t > 0.0)
 	{
-		t_vector intercection = vector_add(ray.origin, vector_mul_n(ray.direction, t));
+		t_vector intercection = vector_add(ray.origin, vector_mul_n(ray.direction, res.t));
 
 		t_vector light = vector_create(300, 0.0, -20);
 		t_ray lightRay = ray_create(intercection, unit_vector(vector_sub(light, intercection)));
 
-		// double lightT = get_t_object(lightRay, data);
-		// if (lightT > 0.0)
-			// return (color_create(0,0,0));
-		t_vector N = unit_vector(vector_sub(ray_at(ray, t), vector_create(0,0,-1)));
-		t_vector res = vector_mul_n(vector_create(N.x + 1, N.y + 1, N.z + 1), 0.5);
-		// return (color_create(1,0,0));
-		return (color_create(res.x, res.y, res.z));
+		double lightT = get_closest_obj(lightRay, data).t;
+		if (lightT > 0.0)
+			return (color_create(0,0,0));
+
+		return (color_create(res.obj->sphere->color.r / 255 ,res.obj->sphere->color.g / 255, res.obj->sphere->color.b / 255));
 	}
 	t_vector c1;
 	c1.x = 1.0;
@@ -89,15 +104,15 @@ t_color ray_color(t_ray ray, t_data *data)
 	c2.x = 0.5;
 	c2.y = 0.7;
 	c2.z = 1.0;
-	t_vector res;
+	t_vector re;
 
 	t_vector unitDirection = unit_vector(ray.direction);
-	t = 0.5 * (unitDirection.y + 1.0);
-	res = vector_add(vector_mul_n(c2, (1.0 - t)), vector_mul_n(c1, t));
+	res.t = 0.5 * (unitDirection.y + 1.0);
+	re = vector_add(vector_mul_n(c2, (1.0 - res.t)), vector_mul_n(c1, res.t));
 	t_color color;
-	color.r = res.x;
-	color.g = res.y;
-	color.b = res.z;
+	color.r = re.x;
+	color.g = re.y;
+	color.b = re.z;
 	// ft_printf("RCOLOR: %i %i %i\n", res.x, res.y, res.z);
 	// ft_printf("RCOLOR: %i %i %i\n", color.r, color.g, color.b);
 	return (color);

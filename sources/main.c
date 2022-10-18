@@ -70,7 +70,7 @@ int main(int argc, char **argv)
 	display_data_main(*data);
 	if (!data)
 		exit(EXIT_FAILURE);
-	// mlx_start(data);
+	mlx_start(data);
 	printf("done!\n");
 	return (0);
 }
