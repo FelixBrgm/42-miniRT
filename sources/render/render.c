@@ -33,9 +33,9 @@ void	render_convert_rgb_to_pixels(t_data *data)
 	while (i < PIXELS)
 	{
 		temp = &(data->mlx_img->pixels[i * 4]);
-		temp[0] = data->img[i]->r;
-		temp[1] = data->img[i]->g;
-		temp[2] = data->img[i]->b;
+		temp[0] = data->img[i]->r * 255;
+		temp[1] = data->img[i]->g * 255;
+		temp[2] = data->img[i]->b * 255;
 		temp[3] = 255;
 		i++;
 	}

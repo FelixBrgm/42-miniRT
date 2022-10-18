@@ -23,3 +23,8 @@ double		vector_length(t_vector v)
 {
 	return sqrt(vector_dot(v, v));
 }
+
+t_vector ray_at(t_ray ray, double t)
+{
+	return (vector_add(ray.origin, vector_mul_n(ray.direction, t)));
+}
