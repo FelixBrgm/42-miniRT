@@ -449,24 +449,26 @@ int parse_sphere(t_data *data, char *line, int *obj_i)
 	char	**line_split;
 	char	**coords_split;
 
-	data->scene.objs[*obj_i].sphere = malloc(sizeof(t_sphere));
+	data->scene.objs[*obj_i] = malloc (sizeof(t_obj));
+	data->scene.objs[*obj_i]->sphere = malloc(sizeof(t_sphere));
 	// protect malloc
 	line_split = ft_split(line, ' ');
 	coords_split = ft_split(line_split[1], ',');
-	data->scene.objs[*obj_i].sphere->position.x = ft_atof(coords_split[0]);
-	data->scene.objs[*obj_i].sphere->position.y = ft_atof(coords_split[1]);
-	data->scene.objs[*obj_i].sphere->position.z = ft_atof(coords_split[2]);
+	data->scene.objs[*obj_i]->sphere->position.x = ft_atof(coords_split[0]);
+	data->scene.objs[*obj_i]->sphere->position.y = ft_atof(coords_split[1]);
+	data->scene.objs[*obj_i]->sphere->position.z = ft_atof(coords_split[2]);
 	// free coords split;
-	data->scene.objs[*obj_i].sphere->radius = ft_atof(line_split[2]) / 2;
+	data->scene.objs[*obj_i]->sphere->radius = ft_atof(line_split[2]) / 2;
 	coords_split = ft_split(line_split[3], ',');
-	data->scene.objs[*obj_i].sphere->color.r = ft_atoi(coords_split[0]);
-	data->scene.objs[*obj_i].sphere->color.g = ft_atoi(coords_split[1]);
-	data->scene.objs[*obj_i].sphere->color.b = ft_atoi(coords_split[2]);
+	data->scene.objs[*obj_i]->sphere->color.r = ft_atoi(coords_split[0]);
+	data->scene.objs[*obj_i]->sphere->color.g = ft_atoi(coords_split[1]);
+	data->scene.objs[*obj_i]->sphere->color.b = ft_atoi(coords_split[2]);
 	// free coords split;
-	data->scene.objs[*obj_i].plane = NULL;
-	data->scene.objs[*obj_i].cylinder = NULL;
+	data->scene.objs[*obj_i]->plane = NULL;
+	data->scene.objs[*obj_i]->cylinder = NULL;
 	*obj_i = *obj_i + 1;
 	// free line split;
+
 	return (0);
 }
 // pl 0,0,0 0,1.0,0 255,0,225
@@ -475,26 +477,27 @@ int parse_plane(t_data *data, char *line, int *obj_i)
     char	**line_split;
 	char	**coords_split;
 
-	data->scene.objs[*obj_i].plane = malloc(sizeof(t_plane));
+	data->scene.objs[*obj_i] = malloc (sizeof(t_obj));
+	data->scene.objs[*obj_i]->plane = malloc(sizeof(t_plane));
 	// protect malloc
 	line_split = ft_split(line, ' ');
 	coords_split = ft_split(line_split[1], ',');
-	data->scene.objs[*obj_i].plane->position.x = ft_atof(coords_split[0]);
-	data->scene.objs[*obj_i].plane->position.y = ft_atof(coords_split[1]);
-	data->scene.objs[*obj_i].plane->position.z = ft_atof(coords_split[2]);
+	data->scene.objs[*obj_i]->plane->position.x = ft_atof(coords_split[0]);
+	data->scene.objs[*obj_i]->plane->position.y = ft_atof(coords_split[1]);
+	data->scene.objs[*obj_i]->plane->position.z = ft_atof(coords_split[2]);
 	// free coords split;
 	coords_split = ft_split(line_split[2], ',');
-	data->scene.objs[*obj_i].plane->rotation.x = ft_atof(coords_split[0]); // NORMALIZED
-	data->scene.objs[*obj_i].plane->rotation.y = ft_atof(coords_split[1]);
-	data->scene.objs[*obj_i].plane->rotation.z = ft_atof(coords_split[2]);
+	data->scene.objs[*obj_i]->plane->rotation.x = ft_atof(coords_split[0]); // NORMALIZED
+	data->scene.objs[*obj_i]->plane->rotation.y = ft_atof(coords_split[1]);
+	data->scene.objs[*obj_i]->plane->rotation.z = ft_atof(coords_split[2]);
 	// free coords split;
 	coords_split = ft_split(line_split[3], ',');
-	data->scene.objs[*obj_i].plane->color.r = ft_atoi(coords_split[0]);
-	data->scene.objs[*obj_i].plane->color.g = ft_atoi(coords_split[1]);
-	data->scene.objs[*obj_i].plane->color.b = ft_atoi(coords_split[2]);
+	data->scene.objs[*obj_i]->plane->color.r = ft_atoi(coords_split[0]);
+	data->scene.objs[*obj_i]->plane->color.g = ft_atoi(coords_split[1]);
+	data->scene.objs[*obj_i]->plane->color.b = ft_atoi(coords_split[2]);
 	// free coords split;
-	data->scene.objs[*obj_i].sphere = NULL;
-	data->scene.objs[*obj_i].cylinder = NULL;
+	data->scene.objs[*obj_i]->sphere = NULL;
+	data->scene.objs[*obj_i]->cylinder = NULL;
 	*obj_i = *obj_i + 1;
 	// free line split;
 	return (0);
@@ -505,27 +508,28 @@ int parse_cylinder(t_data *data, char *line, int *obj_i)
     char	**line_split;
 	char	**coords_split;
 
-	data->scene.objs[*obj_i].cylinder = malloc(sizeof(t_cylinder));
+	data->scene.objs[*obj_i] = malloc (sizeof(t_obj));
+	data->scene.objs[*obj_i]->cylinder = malloc(sizeof(t_cylinder));
 	line_split = ft_split(line, ' ');
 	coords_split = ft_split(line_split[1], ',');
-	data->scene.objs[*obj_i].cylinder->position.x = ft_atof(coords_split[0]);
-	data->scene.objs[*obj_i].cylinder->position.y = ft_atof(coords_split[1]);
-	data->scene.objs[*obj_i].cylinder->position.z = ft_atof(coords_split[2]);
+	data->scene.objs[*obj_i]->cylinder->position.x = ft_atof(coords_split[0]);
+	data->scene.objs[*obj_i]->cylinder->position.y = ft_atof(coords_split[1]);
+	data->scene.objs[*obj_i]->cylinder->position.z = ft_atof(coords_split[2]);
 	// free coords split;
 	coords_split = ft_split(line_split[2], ',');
-	data->scene.objs[*obj_i].cylinder->rotation.x = ft_atof(coords_split[0]); // NORMALIZED
-	data->scene.objs[*obj_i].cylinder->rotation.y = ft_atof(coords_split[1]);
-	data->scene.objs[*obj_i].cylinder->rotation.z = ft_atof(coords_split[2]);
+	data->scene.objs[*obj_i]->cylinder->rotation.x = ft_atof(coords_split[0]); // NORMALIZED
+	data->scene.objs[*obj_i]->cylinder->rotation.y = ft_atof(coords_split[1]);
+	data->scene.objs[*obj_i]->cylinder->rotation.z = ft_atof(coords_split[2]);
 	// free coords split;
-	data->scene.objs[*obj_i].cylinder->radius = ft_atof(line_split[3]) / 2;
-	data->scene.objs[*obj_i].cylinder->height = ft_atof(line_split[4]);
+	data->scene.objs[*obj_i]->cylinder->radius = ft_atof(line_split[3]) / 2;
+	data->scene.objs[*obj_i]->cylinder->height = ft_atof(line_split[4]);
 	coords_split = ft_split(line_split[5], ',');
-	data->scene.objs[*obj_i].cylinder->color.r = ft_atoi(coords_split[0]);
-	data->scene.objs[*obj_i].cylinder->color.g = ft_atoi(coords_split[1]);
-	data->scene.objs[*obj_i].cylinder->color.b = ft_atoi(coords_split[2]);
+	data->scene.objs[*obj_i]->cylinder->color.r = ft_atoi(coords_split[0]);
+	data->scene.objs[*obj_i]->cylinder->color.g = ft_atoi(coords_split[1]);
+	data->scene.objs[*obj_i]->cylinder->color.b = ft_atoi(coords_split[2]);
 	// free coords split;
-	data->scene.objs[*obj_i].sphere = NULL;
-	data->scene.objs[*obj_i].plane = NULL;
+	data->scene.objs[*obj_i]->sphere = NULL;
+	data->scene.objs[*obj_i]->plane = NULL;
 	*obj_i = *obj_i + 1;
 	// free line split;
 	return (0);
@@ -576,32 +580,32 @@ void	display_data(t_data data)
 	printf("LIGHT\n");
 	printf("pos_x = %.2f, pos_y = %.2f, pos_z = %.2f\n", data.scene.light.position.x, data.scene.light.position.y, data.scene.light.position.z);
 	printf("brightness: %.2f\n", data.scene.light.brightness);
-	while (data.scene.objs[i].cylinder || data.scene.objs[i].plane || data.scene.objs[i].sphere)
+	while (data.scene.objs[i]->cylinder || data.scene.objs[i]->plane || data.scene.objs[i]->sphere)
 	{
-		if (data.scene.objs[i].cylinder)
+		if (data.scene.objs[i]->cylinder)
 		{
 			printf("CYLINDER\n");
-			printf("pos_x = %.2f, pos_y = %.2f, pos_z = %.2f\n", data.scene.objs[i].cylinder->position.x, data.scene.objs[i].cylinder->position.y, data.scene.objs[i].cylinder->position.z);
-			printf("rot_x = %.2f, rot_y = %.2f, rot_z = %.2f\n", data.scene.objs[i].cylinder->rotation.x, data.scene.objs[i].cylinder->rotation.y, data.scene.objs[i].cylinder->rotation.z);
-			printf("radius = %.2f\n", data.scene.objs[i].cylinder->radius);
-			printf("height = %.2f\n", data.scene.objs[i].cylinder->height);
-			printf("r = %.0f, g = %.0f, b = %.0f\n", data.scene.objs[i].cylinder->color.r, data.scene.objs[i].cylinder->color.g, data.scene.objs[i].cylinder->color.b);
+			printf("pos_x = %.2f, pos_y = %.2f, pos_z = %.2f\n", data.scene.objs[i]->cylinder->position.x, data.scene.objs[i]->cylinder->position.y, data.scene.objs[i]->cylinder->position.z);
+			printf("rot_x = %.2f, rot_y = %.2f, rot_z = %.2f\n", data.scene.objs[i]->cylinder->rotation.x, data.scene.objs[i]->cylinder->rotation.y, data.scene.objs[i]->cylinder->rotation.z);
+			printf("radius = %.2f\n", data.scene.objs[i]->cylinder->radius);
+			printf("height = %.2f\n", data.scene.objs[i]->cylinder->height);
+			printf("r = %.0f, g = %.0f, b = %.0f\n", data.scene.objs[i]->cylinder->color.r, data.scene.objs[i]->cylinder->color.g, data.scene.objs[i]->cylinder->color.b);
 			printf("======\n");
 		}
-		else if (data.scene.objs[i].plane)
+		else if (data.scene.objs[i]->plane)
 		{
 			printf("PLANE\n");
-			printf("pos_x = %.2f, pos_y = %.2f, pos_z = %.2f\n", data.scene.objs[i].plane->position.x, data.scene.objs[i].plane->position.y, data.scene.objs[i].plane->position.z);
-			printf("rot_x = %.2f, rot_y = %.2f, rot_z = %.2f\n", data.scene.objs[i].plane->rotation.x, data.scene.objs[i].plane->rotation.y, data.scene.objs[i].plane->rotation.z);
-			printf("r = %.0f, g = %.0f, b = %.0f\n", data.scene.objs[i].plane->color.r, data.scene.objs[i].plane->color.g, data.scene.objs[i].plane->color.b);
+			printf("pos_x = %.2f, pos_y = %.2f, pos_z = %.2f\n", data.scene.objs[i]->plane->position.x, data.scene.objs[i]->plane->position.y, data.scene.objs[i]->plane->position.z);
+			printf("rot_x = %.2f, rot_y = %.2f, rot_z = %.2f\n", data.scene.objs[i]->plane->rotation.x, data.scene.objs[i]->plane->rotation.y, data.scene.objs[i]->plane->rotation.z);
+			printf("r = %.0f, g = %.0f, b = %.0f\n", data.scene.objs[i]->plane->color.r, data.scene.objs[i]->plane->color.g, data.scene.objs[i]->plane->color.b);
 			printf("======\n");
 		}
-		else if (data.scene.objs[i].sphere)
+		else if (data.scene.objs[i]->sphere)
 		{
 			printf("SPHERE\n");
-			printf("pos_x = %.2f, pos_y = %.2f, pos_z = %.2f\n", data.scene.objs[i].sphere->position.x, data.scene.objs[i].sphere->position.y, data.scene.objs[i].sphere->position.z);
-			printf("radius = %.2f\n", data.scene.objs[i].sphere->radius);
-			printf("r = %.0f, g = %.0f, b = %.0f\n", data.scene.objs[i].sphere->color.r, data.scene.objs[i].sphere->color.g, data.scene.objs[i].sphere->color.b);
+			printf("pos_x = %.2f, pos_y = %.2f, pos_z = %.2f\n", data.scene.objs[i]->sphere->position.x, data.scene.objs[i]->sphere->position.y, data.scene.objs[i]->sphere->position.z);
+			printf("radius = %.2f\n", data.scene.objs[i]->sphere->radius);
+			printf("r = %.0f, g = %.0f, b = %.0f\n", data.scene.objs[i]->sphere->color.r, data.scene.objs[i]->sphere->color.g, data.scene.objs[i]->sphere->color.b);
 			printf("======\n");
 		}
 		i++;
@@ -634,12 +638,13 @@ int    parse_input(t_data *data, int argc, char **argv)
     }
     if (obj_count > 0)
     {
-        data->scene.objs = malloc(sizeof(t_obj) * (obj_count + 1));
+        data->scene.objs = malloc(sizeof(t_obj *) * (obj_count + 1));
         if (!data->scene.objs)
             ; // MALLOC FAILED, CLEAN EXIT.
-		data->scene.objs[obj_count].cylinder = NULL;
-		data->scene.objs[obj_count].plane = NULL;
-		data->scene.objs[obj_count].sphere = NULL;
+		data->scene.objs[obj_count] = NULL;
+		// data->scene.objs[obj_count].cylinder = NULL;
+		// data->scene.objs[obj_count].plane = NULL;
+		// data->scene.objs[obj_count].sphere = NULL;
     }
     parse_lines(data, line_list);
 	// display_data(*data);

@@ -47,13 +47,13 @@ double get_t_object(t_ray ray, t_data *data)
 	double temp;
 	double t;
 
-	t = hit_sphere(vector_create(data->scene.objs[0].sphere->position.x, data->scene.objs[0].sphere->position.y,
-			data->scene.objs[0].sphere->position.z), data->scene.objs[0].sphere->radius, ray);
-	temp = hit_sphere(vector_create(data->scene.objs[1].sphere->position.x, data->scene.objs[1].sphere->position.y,
-			data->scene.objs[1].sphere->position.z), data->scene.objs[1].sphere->radius, ray);
+	// t = hit_sphere(vector_create(data->scene.objs[0].sphere->position.x, data->scene.objs[0].sphere->position.y,
+	// 		data->scene.objs[0].sphere->position.z), data->scene.objs[0].sphere->radius, ray);
+	// temp = hit_sphere(vector_create(data->scene.objs[1].sphere->position.x, data->scene.objs[1].sphere->position.y,
+	// 		data->scene.objs[1].sphere->position.z), data->scene.objs[1].sphere->radius, ray);
 
-	// t = hit_sphere(vector_create(10.0, 0.0, -20.0), 5, ray);
-	// temp = hit_sphere(vector_create(-10.0, 0.0, -20.0), 10, ray);
+	t = hit_sphere(vector_create(10.0, 0.0, -20.0), 5, ray);
+	temp = hit_sphere(vector_create(-10.0, 0.0, -20.0), 10, ray);
 	if ((temp < t || t < 0) && 0 < temp)
 		t = temp;
 
