@@ -44,7 +44,16 @@ double hit_sphere(t_vector center, double radius, t_ray ray)
 	if (discriminant < 0.0)
 		return -1.0;
 	else
-		return ((-b - sqrt(discriminant)) / (2.0 * a));
+	{
+		double res = (-b - sqrt(discriminant)) / (2.0 * a);
+		if (res < 0.0001)
+		{
+			res = (-b + sqrt(discriminant)) / (2.0 * a);
+			if (res < 0.0001)
+				return (-1.0);
+		}
+		return (res);
+	}
 }
 
 
@@ -87,7 +96,7 @@ t_color ray_color(t_ray ray, t_data *data)
 	{
 		t_vector intercection = vector_add(ray.origin, vector_mul_n(ray.direction, res.t));
 
-		t_vector light = vector_create(300, 0.0, -20);
+		t_vector light = vector_create(100, 0.0, -20);
 		t_ray lightRay = ray_create(intercection, unit_vector(vector_sub(light, intercection)));
 
 		double lightT = get_closest_obj(lightRay, data).t;
