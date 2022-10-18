@@ -62,6 +62,8 @@ t_obj_t get_closest_obj(t_ray ray, t_data *data)
 	double temp = -1.0;
 	t_obj_t res;
 	t_obj **objs;
+	// CHANGE BOTH
+	double t_max = vector_length(vector_sub(vector_create(100, 0.0, -20), ray.origin)) / vector_length(ray.direction);
 
 	res.t = -1.0;
 	res.obj = NULL;
@@ -76,7 +78,7 @@ t_obj_t get_closest_obj(t_ray ray, t_data *data)
 			t_sphere *s = objs[i]->sphere;
 			temp = hit_sphere(vector_create(s->position.x, s->position.y, s->position.z), s->radius, ray);
 		}
-		if ((temp < res.t || res.t < 0) && temp > 0)
+		if ((temp < res.t || res.t < 0) && temp > 0 && temp < t_max)
 		{
 			res.t = temp;
 			res.obj = objs[i];
@@ -96,6 +98,7 @@ t_color ray_color(t_ray ray, t_data *data)
 	{
 		t_vector intercection = vector_add(ray.origin, vector_mul_n(ray.direction, res.t));
 
+		// CHANGE BOTH
 		t_vector light = vector_create(100, 0.0, -20);
 		t_ray lightRay = ray_create(intercection, unit_vector(vector_sub(light, intercection)));
 
