@@ -51,6 +51,7 @@ clean:
 
 fclean: clean
 	make fclean -C libraries/mlxlib
+	make fclean -C libraries/libs
 	rm -rf $(NAME)
 
 re: fclean all
