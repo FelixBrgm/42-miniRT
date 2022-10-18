@@ -32,6 +32,7 @@ typedef struct s_data
 	mlx_image_t	*mlx_img;
 	t_color		**img;
 }			t_data;
+
 # include "parser.h"
 
 
