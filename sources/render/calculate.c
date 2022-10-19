@@ -33,23 +33,60 @@ t_color color_create(double r, double g, double b)
 	return (color);
 }
 
-double hit_sphere(t_vector center, double radius, t_ray ray)
+double hit_light(t_vector center, double radius, t_ray ray)
 {
 	t_vector oc = vector_sub(ray.origin, center);
 	double a = vector_dot(ray.direction, ray.direction);
 	double b = vector_dot(oc, ray.direction) * 2.0;
 	double c = vector_dot(oc, oc) - radius* radius;
+	double t_max = vector_length(vector_sub(vector_create(100, 0.0, -20), ray.origin)) / vector_length(ray.direction);
 	// ft_printf("A: %d | B: %d | C: %d\n", a, b, c);
 	double discriminant = b*b - 4*a*c;
 	if (discriminant < 0.0)
 		return -1.0;
 	else
 	{
-		double res = (-b - sqrt(discriminant)) / (2.0 * a);
-		if (res < 0.0001)
+		double firstInt = (-b - sqrt(discriminant)) / (2.0 * a);
+		double secondInt = (-b + sqrt(discriminant)) / (2.0 * a);
+		double res = firstInt;
+
+		if (firstInt < 0.0001)
 		{
-			res = (-b + sqrt(discriminant)) / (2.0 * a);
-			if (res < 0.0001)
+			res = secondInt;
+			if (secondInt > t_max)
+			{
+				if (radius > 100)
+				// ft_printf("HELLO\n");
+				return (-1.0);
+
+			}
+			if (secondInt < 0.0001)
+				return (-1.0);
+		}
+		return (res);
+	}
+}
+double hit_sphere(t_vector center, double radius, t_ray ray)
+{
+	t_vector oc = vector_sub(ray.origin, center);
+	double a = vector_dot(ray.direction, ray.direction);
+	double b = vector_dot(oc, ray.direction) * 2.0;
+	double c = vector_dot(oc, oc) - radius* radius;
+	double t_max = vector_length(vector_sub(vector_create(100, 0.0, -20), ray.origin)) / vector_length(ray.direction);
+	// ft_printf("A: %d | B: %d | C: %d\n", a, b, c);
+	double discriminant = b*b - 4*a*c;
+	if (discriminant < 0.0)
+		return -1.0;
+	else
+	{
+		double firstInt = (-b - sqrt(discriminant)) / (2.0 * a);
+		double secondInt = (-b + sqrt(discriminant)) / (2.0 * a);
+		double res = firstInt;
+
+		if (firstInt < 0.0001)
+		{
+			res = secondInt;
+			if (secondInt < 0.0001)
 				return (-1.0);
 		}
 		return (res);
@@ -63,7 +100,6 @@ t_obj_t get_closest_obj(t_ray ray, t_data *data)
 	t_obj_t res;
 	t_obj **objs;
 	// CHANGE BOTH
-	double t_max = vector_length(vector_sub(vector_create(100, 0.0, -20), ray.origin)) / vector_length(ray.direction);
 
 	res.t = -1.0;
 	res.obj = NULL;
@@ -77,6 +113,37 @@ t_obj_t get_closest_obj(t_ray ray, t_data *data)
 		{
 			t_sphere *s = objs[i]->sphere;
 			temp = hit_sphere(vector_create(s->position.x, s->position.y, s->position.z), s->radius, ray);
+		}
+		if ((temp < res.t || res.t < 0) && temp > 0)
+		{
+			res.t = temp;
+			res.obj = objs[i];
+		}
+		i++;
+	}
+	return (res);
+}
+t_obj_t get_closest_obj_light(t_ray ray, t_data *data)
+{
+	double temp = -1.0;
+	t_obj_t res;
+	t_obj **objs;
+	t_light light = 	data->scene.light;
+	// CHANGE BOTH
+	double t_max = vector_length(vector_sub(vector_create(light.position.x, light.position.y, light.position.z), ray.origin)) / vector_length(ray.direction);
+
+	res.t = -1.0;
+	res.obj = NULL;
+
+	objs = data->scene.objs;
+
+	int i = 0;
+	while (objs[i] != NULL)
+	{
+		if (objs[i]->sphere)
+		{
+			t_sphere *s = objs[i]->sphere;
+			temp = hit_light(vector_create(s->position.x, s->position.y, s->position.z), s->radius, ray);
 		}
 		if ((temp < res.t || res.t < 0) && temp > 0 && temp < t_max)
 		{
@@ -99,13 +166,13 @@ t_color ray_color(t_ray ray, t_data *data)
 		t_vector intercection = vector_add(ray.origin, vector_mul_n(ray.direction, res.t));
 
 		// CHANGE BOTH
-		t_vector light = vector_create(100, 0.0, -20);
+		t_vector light = vector_create(data->scene.light.position.x,data->scene.light.position.y, data->scene.light.position.z);
 		t_ray lightRay = ray_create(intercection, unit_vector(vector_sub(light, intercection)));
 		
 		double r = (res.obj->sphere->color.r / 255) * ((data->scene.ambient.color.r / 255) * data->scene.ambient.ratio);
 		double g = (res.obj->sphere->color.g / 255) * ((data->scene.ambient.color.g / 255) * data->scene.ambient.ratio);
 		double b = (res.obj->sphere->color.b / 255) * ((data->scene.ambient.color.b / 255) * data->scene.ambient.ratio);
-		double lightT = get_closest_obj(lightRay, data).t;
+		double lightT = get_closest_obj_light(lightRay, data).t;
 		if (lightT > 0.0)
 			return (color_create(r, g, b));
 
@@ -145,7 +212,7 @@ void	calculate(void *param)
 
 	double viewPortHeight = 2.0;
 	double viewPortWidth = viewPortHeight * aspectRatio;
-	double focal_length = 1.0;
+	double focal_length = 5.0;
 
 	t_vector origin = vector_create(data->scene.camera.position.x, data->scene.camera.position.y, data->scene.camera.position.z);
 	// t_vector origin = vector_create(0,0,0);
@@ -155,23 +222,19 @@ void	calculate(void *param)
 
 	t_vector lowerLeftCorner = vector_sub(vector_sub(vector_sub(origin, vector_div_n(horizontal, 2)), vector_div_n(vertical, 2)), focal);
 
-	int x = 0;
 	for (size_t j = 0; j < HEIGHT; j++)
 	{
 		for (size_t i = 0; i < WIDTH; i++)
 		{
 			double u = (double) i / (double) (WIDTH -1);
 			double v = (double) j / (double) (HEIGHT -1);
-			// ft_printf("U: %f | V: %f\n", u, v);
+
 			t_ray r = ray_create(origin, vector_sub(vector_add(lowerLeftCorner, vector_add(vector_mul_n(horizontal, u), vector_mul_n(vertical, v))), origin));
 			t_color res = ray_color(r, data);
 			int pos = j * WIDTH + i;
 			data->img[pos]->r = res.r;
 			data->img[pos]->g = res.g;
 			data->img[pos]->b = res.b;
-			// ft_printf("POS: %i\n", pos);
-			// ft_printf("COLOR: %i %i %i\n", data->img[pos]->r, res.r, res.g);
-			x++;
 		}
 		
 	}
