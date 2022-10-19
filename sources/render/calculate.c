@@ -171,15 +171,21 @@ t_color ray_color(t_ray ray, t_data *data)
 
 	if (res.t > 0.0)
 	{
-		double percent = 0.0005;
+		double percent = 0.01;
 		t_vector intercection = vector_add(ray.origin, vector_mul_n(ray.direction, res.t));
 
+		t_vector sphere_outside = vector_sub(intercection, res.obj->sphere->position);
+		sphere_outside.x = random_double(-1, 1) < 0 ? -1 : 1;
+		sphere_outside.y = random_double(-1, 1) < 0 ? -1 : 1;
+		sphere_outside.z = random_double(-1, 1) < 0 ? -1 : 1;
+
+
 		t_vector light = vector_create(data->scene.light.position.x,data->scene.light.position.y, data->scene.light.position.z);
-		t_ray lightRay = ray_create(vector_sub(intercection, vector_create(
-			res.obj->sphere->radius * random_double(1.0 - percent, 1.0 + percent), 
-			res.obj->sphere->radius * random_double(1.0 - percent, 1.0 + percent), 
-			res.obj->sphere->radius * random_double(1.0 - percent, 1.0 + percent))), 
-			unit_vector(vector_sub(light, intercection)));
+		light = vector_add(light, vector_create(
+			sphere_outside.x * 30 * random_double(0, percent), 
+			sphere_outside.y * 30 * random_double(0, percent), 
+			sphere_outside.z * 30 * random_double(0, percent)));
+		t_ray lightRay = ray_create(intercection, unit_vector(vector_sub(light, intercection)));
 		
 		double r = (res.obj->sphere->color.r / 255) * ((data->scene.ambient.color.r / 255) * data->scene.ambient.ratio);
 		double g = (res.obj->sphere->color.g / 255) * ((data->scene.ambient.color.g / 255) * data->scene.ambient.ratio);
