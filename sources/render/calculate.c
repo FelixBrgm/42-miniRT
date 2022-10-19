@@ -33,6 +33,13 @@ t_color color_create(double r, double g, double b)
 	return (color);
 }
 
+
+double random_double(double min, double max)
+{
+	double n = (double) (rand() % 1000);
+	double difference = max - min;
+	return (min + (n/1000.0) * difference);
+}
 double hit_light(t_vector center, double radius, t_ray ray)
 {
 	t_vector oc = vector_sub(ray.origin, center);
@@ -40,6 +47,7 @@ double hit_light(t_vector center, double radius, t_ray ray)
 	double b = vector_dot(oc, ray.direction) * 2.0;
 	double c = vector_dot(oc, oc) - radius* radius;
 	double t_max = vector_length(vector_sub(vector_create(100, 0.0, -20), ray.origin)) / vector_length(ray.direction);
+	double t_min = 0.002;
 	// ft_printf("A: %d | B: %d | C: %d\n", a, b, c);
 	double discriminant = b*b - 4*a*c;
 	if (discriminant < 0.0)
@@ -50,7 +58,7 @@ double hit_light(t_vector center, double radius, t_ray ray)
 		double secondInt = (-b + sqrt(discriminant)) / (2.0 * a);
 		double res = firstInt;
 
-		if (firstInt < 0.0001)
+		if (firstInt < t_min)
 		{
 			res = secondInt;
 			if (secondInt > t_max)
@@ -60,7 +68,7 @@ double hit_light(t_vector center, double radius, t_ray ray)
 				return (-1.0);
 
 			}
-			if (secondInt < 0.0001)
+			if (secondInt < t_min)
 				return (-1.0);
 		}
 		return (res);
@@ -163,11 +171,15 @@ t_color ray_color(t_ray ray, t_data *data)
 
 	if (res.t > 0.0)
 	{
+		double percent = 0.0005;
 		t_vector intercection = vector_add(ray.origin, vector_mul_n(ray.direction, res.t));
 
-		// CHANGE BOTH
 		t_vector light = vector_create(data->scene.light.position.x,data->scene.light.position.y, data->scene.light.position.z);
-		t_ray lightRay = ray_create(intercection, unit_vector(vector_sub(light, intercection)));
+		t_ray lightRay = ray_create(vector_sub(intercection, vector_create(
+			res.obj->sphere->radius * random_double(1.0 - percent, 1.0 + percent), 
+			res.obj->sphere->radius * random_double(1.0 - percent, 1.0 + percent), 
+			res.obj->sphere->radius * random_double(1.0 - percent, 1.0 + percent))), 
+			unit_vector(vector_sub(light, intercection)));
 		
 		double r = (res.obj->sphere->color.r / 255) * ((data->scene.ambient.color.r / 255) * data->scene.ambient.ratio);
 		double g = (res.obj->sphere->color.g / 255) * ((data->scene.ambient.color.g / 255) * data->scene.ambient.ratio);
@@ -229,15 +241,29 @@ void	calculate(void *param)
 			double u = (double) i / (double) (WIDTH -1);
 			double v = (double) j / (double) (HEIGHT -1);
 
+			double percent = 0.0005;
+			u *= random_double(1.0 - percent, 1.0 + percent);
+			v *= random_double(1.0 - percent, 1.0 + percent);
+
 			t_ray r = ray_create(origin, vector_sub(vector_add(lowerLeftCorner, vector_add(vector_mul_n(horizontal, u), vector_mul_n(vertical, v))), origin));
 			t_color res = ray_color(r, data);
 			int pos = j * WIDTH + i;
-			data->img[pos]->r = res.r;
-			data->img[pos]->g = res.g;
-			data->img[pos]->b = res.b;
-		}
+			if (data->pixel_samples == 0)
+			{
+				data->img[pos]->r = res.r;
+				data->img[pos]->g = res.g;
+				data->img[pos]->b = res.b;
+			}
+			else
+			{
+				data->img[pos]->r = ((data->img[pos]->r * data->pixel_samples) + res.r) / (data->pixel_samples + 1);
+				data->img[pos]->g = ((data->img[pos]->g * data->pixel_samples) + res.g) / (data->pixel_samples + 1);
+				data->img[pos]->b = ((data->img[pos]->b * data->pixel_samples) + res.b) / (data->pixel_samples + 1);
+			}
 		
 	}
 	
 }
-
+			data->pixel_samples++;
+			ft_printf("SAMPLES: %i\n", data->pixel_samples);
+}

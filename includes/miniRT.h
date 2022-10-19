@@ -5,6 +5,8 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <math.h>
+# include <time.h>
 
 # include "vector.h"
 # include "scene.h"
@@ -31,6 +33,7 @@ typedef struct s_data
 	mlx_t		*mlx;
 	mlx_image_t	*mlx_img;
 	t_color		**img;
+	int			pixel_samples;
 }			t_data;
 
 # include "parser.h"

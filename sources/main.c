@@ -98,5 +98,7 @@ t_data	*data_create(void)
 		return (NULL);
 	}
 	data->mlx_img = NULL;
+	data->pixel_samples = 0;
+	srand(time(NULL));
 	return (data);
 }
