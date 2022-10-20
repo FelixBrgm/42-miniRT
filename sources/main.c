@@ -1,5 +1,6 @@
 #include "../includes/miniRT.h"
-
+# include "../includes/parser.h"
+# include "../includes/render.h"
 t_data	*data_create(void);
 
 void	display_data_main(t_data data)

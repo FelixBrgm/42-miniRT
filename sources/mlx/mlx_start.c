@@ -1,5 +1,5 @@
 #include "../../includes/miniRT.h"
-
+# include "../../includes/render.h"
 void	mlx_start(t_data *data)
 {
 	data->mlx = mlx_init(WIDTH, HEIGHT, "miniRT", false);
