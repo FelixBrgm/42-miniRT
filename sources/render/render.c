@@ -1,5 +1,5 @@
 #include "../../includes/miniRT.h"
-
+#include "../../includes/render.h"
 void	render_put_to_window(t_data *data);
 void	render_convert_rgb_to_pixels(t_data *data);
 

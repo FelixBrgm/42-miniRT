@@ -8,9 +8,7 @@
 # include <math.h>
 # include <time.h>
 
-# include "vector.h"
 # include "scene.h"
-# include "render.h"
 # include "../libraries/libs/libs.h"
 # include "../libraries/mlxlib/include/MLX42/MLX42.h"
 
@@ -26,6 +24,14 @@
 # define PIXELS HEIGHT * WIDTH
 # endif
 
+#ifndef ASPECT_RATIO
+# define ASPECT_RATIO 16.0 / 9.0
+# endif
+
+#define VIEWPORT_HEIGHT 2.0
+#define VIEWPORT_WIDTH VIEWPORT_HEIGHT * ASPECT_RATIO
+#define FOCAL_LENGTH 5.0
+#define T_MIN 0.0001
 
 typedef struct s_data
 {
@@ -34,10 +40,7 @@ typedef struct s_data
 	mlx_image_t	*mlx_img;
 	t_color		**img;
 	int			pixel_samples;
-}			t_data;
-
-# include "parser.h"
-
+}				t_data;
 
 void	mlx_start(t_data *data);
 

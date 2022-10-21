@@ -3,7 +3,6 @@
 
 #include <math.h>
 
-
 typedef struct s_vector
 {
 	double	x;
@@ -25,7 +24,7 @@ t_vector	vector_div_n(t_vector v, double n);
 double		vector_dot(t_vector v1, t_vector v2);
 t_vector	unit_vector(t_vector v);
 double		vector_length(t_vector v);
-t_vector	ray_at(t_ray ray, double t);
+t_vector	vector_create(double x, double y, double z);
 
 
 #endif

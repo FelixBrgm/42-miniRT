@@ -24,7 +24,12 @@ double		vector_length(t_vector v)
 	return sqrt(vector_dot(v, v));
 }
 
-t_vector ray_at(t_ray ray, double t)
+
+t_vector vector_create(double x, double y, double z)
 {
-	return (vector_add(ray.origin, vector_mul_n(ray.direction, t)));
+	t_vector vector;
+	vector.x = x;
+	vector.y = y;
+	vector.z = z;
+	return (vector);
 }

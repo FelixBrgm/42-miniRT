@@ -401,9 +401,9 @@ int parse_ambient(t_data *data, char *line)
 	line_split = ft_split(line, ' ');
 	data->scene.ambient.ratio = ft_atof(line_split[1]);
 	color_split = ft_split(line_split[2], ',');
-	data->scene.ambient.color.r = ft_atoi(color_split[0]);
-	data->scene.ambient.color.g = ft_atoi(color_split[1]);
-	data->scene.ambient.color.b = ft_atoi(color_split[2]);
+	data->scene.ambient.color.r = ft_atoi(color_split[0]) / 255.0;
+	data->scene.ambient.color.g = ft_atoi(color_split[1]) / 255.0;
+	data->scene.ambient.color.b = ft_atoi(color_split[2]) / 255.0;
 	return (0);
 }
 // C -50,0,20 0,0,0 70
@@ -460,9 +460,9 @@ int parse_sphere(t_data *data, char *line, int *obj_i)
 	// free coords split;
 	data->scene.objs[*obj_i]->sphere->radius = ft_atof(line_split[2]) / 2;
 	coords_split = ft_split(line_split[3], ',');
-	data->scene.objs[*obj_i]->sphere->color.r = ft_atoi(coords_split[0]);
-	data->scene.objs[*obj_i]->sphere->color.g = ft_atoi(coords_split[1]);
-	data->scene.objs[*obj_i]->sphere->color.b = ft_atoi(coords_split[2]);
+	data->scene.objs[*obj_i]->sphere->color.r = ft_atoi(coords_split[0]) / 255.0;
+	data->scene.objs[*obj_i]->sphere->color.g = ft_atoi(coords_split[1]) / 255.0;
+	data->scene.objs[*obj_i]->sphere->color.b = ft_atoi(coords_split[2]) / 255.0;
 	// free coords split;
 	data->scene.objs[*obj_i]->plane = NULL;
 	data->scene.objs[*obj_i]->cylinder = NULL;
@@ -492,9 +492,9 @@ int parse_plane(t_data *data, char *line, int *obj_i)
 	data->scene.objs[*obj_i]->plane->rotation.z = ft_atof(coords_split[2]);
 	// free coords split;
 	coords_split = ft_split(line_split[3], ',');
-	data->scene.objs[*obj_i]->plane->color.r = ft_atoi(coords_split[0]);
-	data->scene.objs[*obj_i]->plane->color.g = ft_atoi(coords_split[1]);
-	data->scene.objs[*obj_i]->plane->color.b = ft_atoi(coords_split[2]);
+	data->scene.objs[*obj_i]->plane->color.r = ft_atoi(coords_split[0]) / 255.0;
+	data->scene.objs[*obj_i]->plane->color.g = ft_atoi(coords_split[1]) / 255.0;
+	data->scene.objs[*obj_i]->plane->color.b = ft_atoi(coords_split[2]) / 255.0;
 	// free coords split;
 	data->scene.objs[*obj_i]->sphere = NULL;
 	data->scene.objs[*obj_i]->cylinder = NULL;
@@ -524,9 +524,9 @@ int parse_cylinder(t_data *data, char *line, int *obj_i)
 	data->scene.objs[*obj_i]->cylinder->radius = ft_atof(line_split[3]) / 2;
 	data->scene.objs[*obj_i]->cylinder->height = ft_atof(line_split[4]);
 	coords_split = ft_split(line_split[5], ',');
-	data->scene.objs[*obj_i]->cylinder->color.r = ft_atoi(coords_split[0]);
-	data->scene.objs[*obj_i]->cylinder->color.g = ft_atoi(coords_split[1]);
-	data->scene.objs[*obj_i]->cylinder->color.b = ft_atoi(coords_split[2]);
+	data->scene.objs[*obj_i]->cylinder->color.r = ft_atoi(coords_split[0]) / 255;
+	data->scene.objs[*obj_i]->cylinder->color.g = ft_atoi(coords_split[1]) / 255;
+	data->scene.objs[*obj_i]->cylinder->color.b = ft_atoi(coords_split[2]) / 255;
 	// free coords split;
 	data->scene.objs[*obj_i]->sphere = NULL;
 	data->scene.objs[*obj_i]->plane = NULL;
