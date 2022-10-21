@@ -14,7 +14,7 @@ void	display_data_main(t_data data)
 	printf("*** DATA ***\n");
 	printf("AMBIENT\n");
 	printf("ratio: %.2f\n", data.scene.ambient.ratio);
-	printf("r = %.0f, g = %.0f, b = %.0f\n", data.scene.ambient.color.r, data.scene.ambient.color.g, data.scene.ambient.color.b);
+	printf("r = %.4f, g = %.4f, b = %.4f\n", data.scene.ambient.color.r, data.scene.ambient.color.g, data.scene.ambient.color.b);
 	printf("======\n");
 	printf("CAMERA\n");
 	printf("pos_x = %.2f, pos_y = %.2f, pos_z = %.2f\n", data.scene.camera.position.x, data.scene.camera.position.y, data.scene.camera.position.z);
