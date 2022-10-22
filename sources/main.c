@@ -68,7 +68,7 @@ int main(int argc, char **argv)
 		printf("error in parser.\n");
 		return (0);
 	}
-	display_data_main(*data);
+	//display_data_main(*data);
 	if (!data)
 		exit(EXIT_FAILURE);
 	mlx_start(data);

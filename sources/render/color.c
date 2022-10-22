@@ -13,7 +13,7 @@ t_color color_calculate(t_data *data, t_ray ray)
 
 	closest = hit_closest_obj(data, ray);
 	if (closest.t <= 0.0)
-		return (color_create(0,0,0));
+		return (color_create(100,100,100));
 	return (color_calculate_light(data, ray, closest));
 }
 
@@ -21,6 +21,7 @@ t_color color_calculate_light(t_data *data, t_ray ray, t_obj_t closest)
 {
 	t_obj_t lightCollisions;
 	t_ray	lightRay;
+	t_vector	normal;
 	double	t_light_max;
 
 	t_light_max = vector_length(vector_sub(data->scene.light.position, ray.origin)) / vector_length(ray.direction);
@@ -28,7 +29,10 @@ t_color color_calculate_light(t_data *data, t_ray ray, t_obj_t closest)
 	lightCollisions = hit_closest_obj(data, lightRay);
 
 	t_vector lightDir = unit_vector(vector_sub(closest.intersection, data->scene.light.position));
-	t_vector normal = unit_vector(vector_sub(closest.intersection, closest.obj->sphere->position));
+	if (closest.obj->sphere)
+		normal = unit_vector(vector_sub(closest.intersection, closest.obj->sphere->position));
+	if (closest.obj->plane)
+		normal = unit_vector(vector_sub(closest.intersection, closest.obj->plane->position));
 	double	hitRatio = vector_dot(normal, vector_mul_n(lightDir, -1.0));
 	t_color ambient_color = color_mul_n(data->scene.ambient.color, data->scene.ambient.ratio);
 
@@ -56,7 +60,7 @@ t_color get_color_of_object(t_obj obj)
 	if (obj.plane)
 		return (obj.plane->color);
 	if (obj.cylinder)
-		return (obj.plane->color);
+		return (obj.cylinder->color);
 	if (obj.sphere)
 		return (obj.sphere->color);
 	return (color_create(1, 0, 0));

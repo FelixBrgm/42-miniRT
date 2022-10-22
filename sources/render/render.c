@@ -8,7 +8,7 @@ void	render(void *param)
 	t_data	*data;
 
 	data = param;
-
+	
 	calculate(data);
 	render_put_to_window(data);
 }

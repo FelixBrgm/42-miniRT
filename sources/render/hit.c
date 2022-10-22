@@ -1,8 +1,9 @@
 #include "../../includes/render.h"
 #include "../../includes/miniRT.h"
-
+#include <stdio.h>
 double	hit_object(t_obj obj, t_ray ray);
 double hit_sphere(t_sphere sphere, t_ray ray);
+double hit_plane(t_plane plane, t_ray ray);
 
 t_obj_t hit_closest_obj(t_data *data, t_ray ray)
 {
@@ -34,6 +35,8 @@ double	hit_object(t_obj obj, t_ray ray)
 {
 	if(obj.sphere)
 		return (hit_sphere(*(obj.sphere), ray));
+	if(obj.plane)
+		return (hit_plane(*(obj.plane), ray));
 	return (- 1.0);
 }
 
@@ -67,3 +70,31 @@ double hit_sphere(t_sphere sphere, t_ray ray)
 	}
 	return (firstIntersection);
 }
+
+double hit_plane(t_plane plane, t_ray ray)
+{
+	double	d;
+	double	t;
+	double	denom;
+
+	denom = vector_dot(plane.rotation, ray.direction);
+	denom = denom > 0 ? denom : -denom;
+	if (denom < 0.0001)
+		return (-1.0);
+
+	d = vector_dot(plane.position, vector_mul_n(plane.rotation, -1.0));
+	t = -(d + vector_dot(ray.origin, plane.rotation)) / vector_dot(ray.direction, plane.rotation);
+
+	if (t < 0.0001)
+		return (-1.0);
+
+	return (t);
+}
+
+
+// Vector3 Intersect(Vector3 planeP, Vector3 planeN, Vector3 rayP, Vector3 rayD)
+// {
+//     var d = Vector3.Dot(planeP, -planeN);
+//     var t = -(d + Vector3.Dot(rayP, planeN)) / Vector3.Dot(rayD, planeN);
+//     return rayP + t * rayD;
+// }
