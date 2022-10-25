@@ -25,28 +25,40 @@ t_color color_calculate_light(t_data *data, t_ray ray, t_obj_t closest)
 	double	t_light_max;
 
 	t_light_max = vector_length(vector_sub(data->scene.light.position, ray.origin)) / vector_length(ray.direction);
+	// if (closest.obj->plane)
+	// {
+	// 	if(closest.obj->plane->color.b == 1 && ray.origin.x)
+	// 	{
+	// 		t_vector test = ray.origin;
+	// 		// printf("%f %f %f\n", ray.origin.x, test.y, test.z);
+	// 	}
+	// }
 	lightRay = ray_create(closest.intersection, vector_sub(data->scene.light.position, closest.intersection));
 	lightCollisions = hit_closest_obj(data, lightRay);
+	// if (closest.obj->plane && closest.obj->plane->color.b == 1 && lightCollisions.t > 1.5)
+	// 	printf("T: %f Tmax: %f %f %f %f\n", lightCollisions.t, t_light_max, lightCollisions.intersection.x, lightCollisions.intersection.y, lightCollisions.intersection.z);
 
 	t_vector lightDir = unit_vector(vector_sub(closest.intersection, data->scene.light.position));
-	if (closest.obj->sphere)
-		normal = unit_vector(vector_sub(closest.intersection, closest.obj->sphere->position));
-	if (closest.obj->plane)
-		normal = unit_vector(vector_sub(closest.intersection, closest.obj->plane->position));
+	// if (closest.obj->sphere)
+	// 	normal = unit_vector(vector_sub(closest.intersection, closest.obj->sphere->position));
+	// if (closest.obj->plane)
+	// 	normal = unit_vector(vector_sub(closest.intersection, closest.obj->plane->position));
 	double	hitRatio = vector_dot(normal, vector_mul_n(lightDir, -1.0));
+	// hitRatio = 1;
 	t_color ambient_color = color_mul_n(data->scene.ambient.color, data->scene.ambient.ratio);
-
-	if (lightCollisions.t > 0.0 && lightCollisions.t < t_light_max)
+	// && lightCollisions.t < t_light_max
+	bool isOk = vector_length(vector_sub(lightRay.origin, data->scene.light.position)) > vector_length(vector_sub(lightRay.origin, lightCollisions.intersection));
+	if (!(lightCollisions.t > 0.0 && isOk))
 	{
 		t_color shadow = get_color_of_object(*(closest.obj));
-		shadow = color_mul_n(color_add(shadow, ambient_color), data->scene.ambient.ratio);
+		// shadow = color_mul_n(color_add(shadow, ambient_color), data->scene.ambient.ratio);
 		// shadow = color_mul(shadow, color_mul_n(data->scene.ambient.color, data->scene.ambient.ratio));
 		return (shadow);
 	}
-	if (hitRatio < 0.0)
-		hitRatio = 0.0;
+	// if (hitRatio < 0.0)
+	// 	hitRatio = 0.0;
 	t_color color = get_color_of_object(*(closest.obj));
-	double brightness = hitRatio + data->scene.ambient.ratio;
+	double brightness =  data->scene.ambient.ratio * hitRatio;
 	if (brightness > 1.0)
 		brightness = 1.0;
 	color = color_mul_n(color_add(color, ambient_color), brightness);

@@ -30,7 +30,7 @@
 
 #define VIEWPORT_HEIGHT 2.0
 #define VIEWPORT_WIDTH VIEWPORT_HEIGHT * ASPECT_RATIO
-#define FOCAL_LENGTH 1.0
+#define FOCAL_LENGTH 3.0
 #define T_MIN 0.0001
 
 typedef struct s_data

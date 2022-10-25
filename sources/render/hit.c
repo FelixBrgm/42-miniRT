@@ -78,12 +78,12 @@ double hit_plane(t_plane plane, t_ray ray)
 	double	denom;
 
 	denom = vector_dot(plane.rotation, ray.direction);
-	denom = denom > 0 ? denom : -denom;
-	if (denom < 0.0001)
+	if (denom < 0.0001 && denom > -0.0001)
 		return (-1.0);
 
-	d = vector_dot(plane.position, vector_mul_n(plane.rotation, -1.0));
-	t = -(d + vector_dot(ray.origin, plane.rotation)) / vector_dot(ray.direction, plane.rotation);
+	// d = vector_dot(plane.position, vector_mul_n(plane.rotation, -1.0));
+	// t = -(d + vector_dot(ray.origin, plane.rotation)) / vector_dot(ray.direction, plane.rotation);
+	t = vector_dot(vector_sub(plane.position, ray.origin), plane.rotation) / denom;
 
 	if (t < 0.0001)
 		return (-1.0);
