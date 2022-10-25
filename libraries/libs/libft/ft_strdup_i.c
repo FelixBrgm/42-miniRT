@@ -6,7 +6,7 @@
 /*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 10:36:29 by fbruggem          #+#    #+#             */
-/*   Updated: 2022/07/06 15:27:48 by fbruggem         ###   ########.fr       */
+/*   Updated: 2022/10/25 09:09:06 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ char	*ft_strdup_i(const char *s1, size_t n)
 
 	i = 0;
 	mem = ft_calloc(n + 1, sizeof(char));
-	if (!mem)
+	if (mem == NULL)
 		return (NULL);
-	while (s1[i] != '\0' && i < n)
+	while (s1[i] != '\0' && i < (int) n)
 	{	
 		mem[i] = s1[i];
 		i++;

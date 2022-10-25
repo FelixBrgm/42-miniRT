@@ -6,7 +6,7 @@
 /*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 19:52:24 by fbruggem          #+#    #+#             */
-/*   Updated: 2022/03/31 14:19:55 by fbruggem         ###   ########.fr       */
+/*   Updated: 2022/10/24 14:54:56 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	while (is_in_set(set, s1[i]) && i > -1)
 		i--;
 	mem = ft_calloc(i + 2, 1);
-	if (!mem)
+	if (mem == NULL)
 		return (NULL);
 	ft_strlcpy(mem, s1, i + 2);
 	mem[i + 1] = '\0';

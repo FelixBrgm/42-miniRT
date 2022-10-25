@@ -6,7 +6,7 @@
 /*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 11:57:10 by fbruggem          #+#    #+#             */
-/*   Updated: 2022/06/09 09:56:34 by fbruggem         ###   ########.fr       */
+/*   Updated: 2022/10/24 14:54:14 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	i = 0;
 	len = ft_strlen(s1) + ft_strlen(s2);
 	mem = ft_calloc(1, len + 1);
-	if (!mem)
+	if (mem == NULL)
 		return (NULL);
 	while (s1[i])
 	{

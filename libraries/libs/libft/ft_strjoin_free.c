@@ -6,12 +6,11 @@
 /*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 11:57:10 by fbruggem          #+#    #+#             */
-/*   Updated: 2022/06/09 16:13:44 by fbruggem         ###   ########.fr       */
+/*   Updated: 2022/10/24 14:54:05 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 char	*ft_strjoin_free(char const *s1, char const *s2)
 {
@@ -19,12 +18,12 @@ char	*ft_strjoin_free(char const *s1, char const *s2)
 	int		i;
 	int		len;
 
-	if (!s1)
+	if (s1 == NULL)
 		s1 = ft_strdup("");
 	i = 0;
 	len = ft_strlen(s1) + ft_strlen(s2);
 	mem = ft_calloc(1, len + 1);
-	if (!mem)
+	if (mem == NULL)
 		return (NULL);
 	while (s1[i])
 	{

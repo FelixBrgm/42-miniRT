@@ -1,4 +1,5 @@
 AR := ar rcs
+CFLAGS := -Wall -Werror -Wextra
 
 NAME = libs.a
 
@@ -36,13 +37,19 @@ OFILES := $(CFILES:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OFILES)
-	$(AR) $(NAME) $(OFILES)
+	@$(AR) $(NAME) $(OFILES)
+	@echo "Compiled!"
+
+%.o : %.c
+	@$(CC) -c $(CFLAGS) $< -o $@
 
 clean: 
-	rm -f $(OFILES)
+	@rm -f $(OFILES)
+	@echo "Cleaned!"
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
+	@echo "FCleaned!"
 
 re: fclean all
 

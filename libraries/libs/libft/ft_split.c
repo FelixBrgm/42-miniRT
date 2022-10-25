@@ -6,7 +6,7 @@
 /*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 22:17:30 by fbruggem          #+#    #+#             */
-/*   Updated: 2022/04/02 14:50:59 by fbruggem         ###   ########.fr       */
+/*   Updated: 2022/10/24 14:53:14 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	**ft_split(char const *s, char c)
 		return (NULL);
 	i = 0;
 	res = ft_calloc(get_nbr_of_words((char *) s, c) + 1, sizeof(char *));
-	if (!res)
+	if (res == NULL)
 		return (NULL);
 	if (ft_strlen(s) == 0)
 		return (res);
@@ -36,7 +36,7 @@ char	**ft_split(char const *s, char c)
 	while (*mem != '\0')
 	{
 		res[i] = get_word(mem, c);
-		if (!res[i])
+		if (res[i] == NULL)
 			return (free_split(res));
 		mem = skip_part(mem, c, 1);
 		mem = skip_part(mem, c, 0);
@@ -63,7 +63,7 @@ static char	*get_word(char *s, char c)
 	while (s[i] != c && s[i] != '\0')
 		i++;
 	res = ft_calloc(i + 1, 1);
-	if (!res)
+	if (res == NULL)
 		return (NULL);
 	i = 0;
 	while (s[i] != c && s[i] != '\0')
@@ -95,7 +95,7 @@ static char	**free_split(char **res)
 	int	i;
 
 	i = 0;
-	while (res[i])
+	while (res[i] != NULL)
 	{
 		free(res[i]);
 		i++;

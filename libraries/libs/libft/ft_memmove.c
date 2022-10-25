@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: felixbruggemann <felixbruggemann@studen    +#+  +:+       +#+        */
+/*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 16:54:44 by fbruggem          #+#    #+#             */
-/*   Updated: 2022/06/03 21:52:51 by felixbrugge      ###   ########.fr       */
+/*   Updated: 2022/10/24 14:51:28 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 
 	from = src;
 	to = dst;
-	if (!dst && !src)
+	if (dst == NULL && src == NULL)
 		return (0);
 	if (from > to)
 		while (len--)
