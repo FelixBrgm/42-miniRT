@@ -10,7 +10,7 @@ t_ray ray_create(t_vector orig, t_vector dir)
 	t_ray ray;
 
 	ray.origin = orig;
-	ray.direction = dir;
+	ray.direction = unit_vector(dir);
 	return (ray);
 }
 t_ray ray_calculate(t_calculate cal_obj, int x, int y)

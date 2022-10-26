@@ -63,6 +63,9 @@ t_color color_calculate_light(t_data *data, t_ray ray, t_obj_t closest)
 	// && lightCollisions.t < t_light_max
 	// bool isOk = vector_length(vector_sub(lightRay.origin, data->scene.light.position)) > vector_length(vector_sub(lightRay.origin, lightCollisions.intersection));
 	
+	if (brightness < brightnessLessFactor)
+		return (color_create(0,0,0));
+
 	t_color color = get_color_of_object(*(closest.obj));
 	color = color_mul_n(color, brightness);
 	color = color_add(color, color_mul_n(data->scene.ambient.color, data->scene.ambient.ratio));

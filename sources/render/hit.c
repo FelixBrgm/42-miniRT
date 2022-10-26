@@ -4,6 +4,7 @@
 double	hit_object(t_obj obj, t_ray ray);
 double hit_sphere(t_sphere sphere, t_ray ray);
 double hit_plane(t_plane plane, t_ray ray);
+double hit_cylinder(t_cylinder cylinder, t_ray ray);
 
 t_obj_t hit_closest_obj(t_data *data, t_ray ray)
 {
@@ -37,6 +38,8 @@ double	hit_object(t_obj obj, t_ray ray)
 		return (hit_sphere(*(obj.sphere), ray));
 	if(obj.plane)
 		return (hit_plane(*(obj.plane), ray));
+	if(obj.cylinder)
+		return (hit_cylinder(*(obj.cylinder), ray));
 	return (- 1.0);
 }
 
@@ -88,6 +91,32 @@ double hit_plane(t_plane plane, t_ray ray)
 	if (t < 0.0001)
 		return (-1.0);
 
+	return (t);
+}
+
+double hit_circle(t_cylinder cylinder, t_ray ray, int direction)
+{
+	t_plane plane;
+
+	plane.position = vector_add(cylinder.position, vector_mul_n(unit_vector(cylinder.rotation), (cylinder.height / 2) * direction));
+	plane.rotation = cylinder.rotation;
+	double t = hit_plane(plane, ray);
+	if (t < 0)
+		return (-1.0);
+	t_vector intersection = vector_add(ray.origin, vector_mul_n(unit_vector(ray.direction), t));
+	if (vector_length(vector_sub(intersection, plane.position)) > cylinder.radius)
+		return (-1.0);
+	return (t);
+}
+double hit_cylinder(t_cylinder cylinder, t_ray ray)
+{
+	double t;
+	double temp;
+
+	t = hit_circle(cylinder, ray, 1);
+	temp = hit_circle(cylinder, ray, -1);
+	if ((temp < t || t < 0) && temp > 0)
+		t = temp;
 	return (t);
 }
 

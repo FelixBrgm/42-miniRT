@@ -1,5 +1,5 @@
 #include "../../includes/render.h"
-
+#include <stdio.h>
 
 t_calculate	calculate_setup(t_data *data);
 void		set_pixel(t_data *data, t_color color,int x,int y);
@@ -16,6 +16,7 @@ void calculate(t_data *data)
 	y = 0;
 	while (y < HEIGHT)
 	{
+		printf("%f%%\n", (double) y/HEIGHT);
 		x = 0;
 		while (x < WIDTH)
 		{
