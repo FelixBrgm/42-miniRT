@@ -39,25 +39,37 @@ t_color color_calculate_light(t_data *data, t_ray ray, t_obj_t closest)
 	// 	printf("T: %f Tmax: %f %f %f %f\n", lightCollisions.t, t_light_max, lightCollisions.intersection.x, lightCollisions.intersection.y, lightCollisions.intersection.z);
 
 
+	double hitRatio = 1;
 	// HitAngle
-	// if (closest.obj->sphere)
-	// 	normal = unit_vector(vector_sub(closest.intersection, closest.obj->sphere->position));
-	// if (closest.obj->plane)
-	// 	normal = unit_vector(vector_sub(closest.intersection, closest.obj->plane->position));
-	// double	hitRatio = vector_dot(normal, vector_mul_n(lightRay.direction, -1.0));
+	if (closest.obj->sphere)
+	{
+		t_vector lightDir = unit_vector(vector_sub(closest.intersection, data->scene.light.position));
+		t_vector normal = unit_vector(vector_sub(closest.intersection, closest.obj->sphere->position));
+		hitRatio = vector_dot(normal, vector_mul_n(lightDir, -1.0));
+		if (hitRatio < 0.0)
+			hitRatio = 0.0;
+		printf("DEGREE: %f\n", hitRatio);
+	}
 
 
-	// if (hitRatio < 0.0)
-	// 	hitRatio = 0.0;
 
+	double brightness = 1;
+	double brightnessLessFactor = 0.01;
+	double distance = vector_length(vector_sub(lightRay.origin, data->scene.light.position));
+	if (distance > 1000000)
+		brightness = 0;
+	else
+		brightness = (20 - log2(distance/brightnessLessFactor)) / 20;
 	// && lightCollisions.t < t_light_max
 	// bool isOk = vector_length(vector_sub(lightRay.origin, data->scene.light.position)) > vector_length(vector_sub(lightRay.origin, lightCollisions.intersection));
-
+	
 	t_color color = get_color_of_object(*(closest.obj));
-	if (lightCollisions.t <= 0.0 || lightCollisions.t > t_light_max)
-		return (color);
-
+	color = color_mul_n(color, brightness);
 	color = color_add(color, color_mul_n(data->scene.ambient.color, data->scene.ambient.ratio));
+
+	if (lightCollisions.t <= 0.0 || lightCollisions.t > t_light_max)
+		return color_mul_n(color, 1 + hitRatio);
+
 	return (color);
 }
 
