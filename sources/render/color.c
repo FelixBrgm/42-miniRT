@@ -48,7 +48,7 @@ t_color color_calculate_light(t_data *data, t_ray ray, t_obj_t closest)
 		hitRatio = vector_dot(normal, vector_mul_n(lightDir, -1.0));
 		if (hitRatio < 0.0)
 			hitRatio = 0.0;
-		printf("DEGREE: %f\n", hitRatio);
+		// printf("DEGREE: %f\n", hitRatio);
 	}
 
 
