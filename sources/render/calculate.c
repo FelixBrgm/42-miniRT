@@ -1,5 +1,4 @@
 #include "../../includes/render.h"
-#include <stdio.h>
 
 t_calculate	calculate_setup(t_data *data);
 void		set_pixel(t_data *data, t_color color,int x,int y);
@@ -16,7 +15,6 @@ void calculate(t_data *data)
 	y = 0;
 	while (y < HEIGHT)
 	{
-		printf("%f%%\n", (double) y/HEIGHT);
 		x = 0;
 		while (x < WIDTH)
 		{
@@ -29,19 +27,6 @@ void calculate(t_data *data)
 	}
 }
 
-
-// [(a2 * b3 – a3 * b2), (a3 * b1 – a1 * b3), (a1 * b2 – a2 * b1)]
-
-t_vector vector_cross(t_vector v1, t_vector v2)
-{
-	t_vector res;
-
-	res.x = ((v1.y * v2.z) - (v1.z * v2.y));
-	res.y = ((v1.z * v2.x) - (v1.x * v2.z));
-	res.z = ((v1.x * v2.y) - (v1.y * v2.x));
-	return (res);
-}
-
 t_calculate	calculate_setup(t_data *data)
 {
 	t_calculate cal_obj;
@@ -50,7 +35,7 @@ t_calculate	calculate_setup(t_data *data)
 	double vp_width = vp_height * ASPECT_RATIO;
 
 	t_vector vup = vector_create(0.0, 1.0, 0.0);
-	t_vector w = vector_sub(camera.position, camera.rotation);
+	t_vector w = vector_mul_n(camera.rotation, -1.0);
 	w = vector_div_n(w, vector_length(w));
 	t_vector u = vector_cross(vup, w);
 	u = vector_div_n(u, vector_length(u));
@@ -63,18 +48,6 @@ t_calculate	calculate_setup(t_data *data)
 	cal_obj.lowerLeftCorner = vector_sub(vector_sub(vector_sub(cal_obj.origin, vector_div_n(cal_obj.horizontal, 2)), vector_div_n(cal_obj.vertical, 2)), w);
 	return (cal_obj);
 }
-
-// t_calculate	calculate_setup(t_data *data)
-// {
-// 	t_calculate cal_obj;
-
-// 	cal_obj.origin = data->scene.camera.position;
-// 	cal_obj.horizontal = vector_create(VIEWPORT_WIDTH, 0, 0);
-// 	cal_obj.vertical = vector_create(0, VIEWPORT_HEIGHT, 0);
-// 	t_vector focal = vector_create(0, 0, FOCAL_LENGTH);
-// 	cal_obj.lowerLeftCorner = vector_sub(vector_sub(vector_sub(cal_obj.origin, vector_div_n(cal_obj.horizontal, 2)), vector_div_n(cal_obj.vertical, 2)), focal);
-// 	return (cal_obj);
-// }
 
 void	set_pixel(t_data *data, t_color color,int x,int y)
 {

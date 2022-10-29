@@ -8,5 +8,5 @@ void	mlx_start(t_data *data)
 	render((void *) data);
 	// mlx_loop_hook(data->mlx, &render, data);
 	mlx_loop(data->mlx);
-	mlx_terminate(data->mlx);	
+	mlx_terminate(data->mlx);
 }

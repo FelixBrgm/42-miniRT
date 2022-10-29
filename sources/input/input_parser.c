@@ -179,6 +179,8 @@ int check_coords(char *coords_line)
     char    **coords_split;
     int     i;
     int     dot;
+
+	printf("coords line: %s\n", coords_line);
     coords_split = ft_split(coords_line, ',');
     if (get_split_len(coords_split) != 3)
     {
@@ -188,6 +190,11 @@ int check_coords(char *coords_line)
     i = 0;
     while (coords_split[i])
     {
+		if (coords_split[i][0] == '\0' || coords_split[i][0] == '\n')
+		{
+            printf("Wrong coordinate format.\n");
+			return (-1);
+		}
         if (check_float(coords_split[i]) == -1)
         {
             printf("Wrong coordinate format.\n");
@@ -329,7 +336,10 @@ int check_cylinder(char *line)
         return (-1);
     }
 	if (check_coords(line_split[5]) == -1)
+	{
+		printf("wrong color format.\n");
 		return (-1);
+	}
     return (0);
 }
 int check_lines(t_list *line_list)

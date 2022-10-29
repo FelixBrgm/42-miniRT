@@ -40,7 +40,7 @@ double	hit_object(t_obj obj, t_ray ray)
 		return (hit_plane(*(obj.plane), ray));
 	if(obj.cylinder)
 		return (hit_cylinder(*(obj.cylinder), ray));
-	return (- 1.0);
+	return (-1.0);
 }
 
 double hit_sphere(t_sphere sphere, t_ray ray)
@@ -108,16 +108,42 @@ double hit_circle(t_cylinder cylinder, t_ray ray, int direction)
 		return (-1.0);
 	return (t);
 }
+
 double hit_cylinder(t_cylinder cylinder, t_ray ray)
 {
-	double t;
-	double temp;
+	double top_t;
+	double bot_t;
+	double tube1_t, tube2_t;
 
-	t = hit_circle(cylinder, ray, 1);
-	temp = hit_circle(cylinder, ray, -1);
-	if ((temp < t || t < 0) && temp > 0)
-		t = temp;
-	return (t);
+	// top_t = hit_circle(cylinder, ray, 1);
+	// bot_t = hit_circle(cylinder, ray, -1);
+
+	t_vector rotation = vector_div_n(cylinder.rotation, vector_length(cylinder.rotation));
+	double radius = cylinder.radius;
+	// hit tube
+	t_vector new_ray_direction = vector_cross(ray.direction, rotation);
+	t_vector oc = vector_sub(ray.origin, cylinder.position);
+	double a = vector_dot(new_ray_direction, new_ray_direction);
+	double b = vector_dot(new_ray_direction, vector_cross(oc, rotation)) * 2.0;
+	double c = vector_dot(vector_cross(oc, rotation), vector_cross(oc, rotation)) - radius * radius;
+	double discriminant = b * b - 4 * a * c;
+	if (discriminant < 0)
+		return (-1.0);
+	else
+	{
+		tube1_t = (-b - sqrt(discriminant)) / (2.0 * a);
+		tube2_t = (-b + sqrt(discriminant)) / (2.0 * a);
+		if (tube1_t < T_MIN)
+		{
+			if (tube2_t < T_MIN)
+				return (-1.0);
+			return (tube2_t);
+		}
+	}
+	return (tube1_t);
+
+	// if ((temp < t || t < 0) && temp > 0)
+	// 	t = temp;
 }
 
 
