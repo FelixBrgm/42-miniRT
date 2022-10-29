@@ -53,25 +53,50 @@ t_color color_calculate_light(t_data *data, t_ray ray, t_obj_t closest)
 	}
 	else if (closest.obj->cylinder)
 	{
+		t_cylinder cylinder = *(closest.obj->cylinder);
 		t_vector lightDir = unit_vector(vector_sub(closest.intersection, data->scene.light.position));
 		// t_vector normal = unit_vector(vector_sub(closest.intersection, closest.obj->cylinder->position));
-		// === get P ===
-		double hypo = vector_length(vector_sub(closest.intersection, closest.obj->cylinder->position));
-		double distance = sqrt(hypo * hypo - closest.obj->cylinder->radius * closest.obj->cylinder->radius);
-		t_vector center1 = vector_add(closest.obj->cylinder->position, vector_mul_n(closest.obj->cylinder->rotation, distance));
-		t_vector center2 = vector_sub(closest.obj->cylinder->position, vector_mul_n(closest.obj->cylinder->rotation, distance));
-		double c1_dis = vector_length(vector_sub(closest.intersection, center1));
-		double c2_dis = vector_length(vector_sub(closest.intersection, center2));
-		t_vector normal;
-		if (c1_dis < c2_dis)
-			normal = unit_vector(vector_sub(closest.intersection, center1));
+
+		// check if intersection is on top or bottom cap of cylinder
+		t_vector top_center = vector_add(cylinder.position, vector_mul_n(cylinder.rotation, cylinder.height / 2));
+		t_vector bot_center = vector_sub(cylinder.position, vector_mul_n(cylinder.rotation, cylinder.height / 2));
+		double dis1 = vector_length(vector_sub(closest.intersection, top_center));
+		double dis2 = vector_length(vector_sub(closest.intersection, bot_center));
+		if (dis1 <= cylinder.radius)
+		{
+			t_vector normal = unit_vector(cylinder.rotation);
+			hitRatio = vector_dot(normal, vector_mul_n(lightDir, -1.0));
+			if (hitRatio < 0.0)
+				hitRatio = 0.0;
+			
+		}
+		else if (dis2 <= cylinder.radius)
+		{
+			t_vector normal = unit_vector(vector_mul_n(cylinder.rotation, -1));
+			hitRatio = vector_dot(normal, vector_mul_n(lightDir, -1.0));
+			if (hitRatio < 0.0)
+				hitRatio = 0.0;
+		}
 		else
-			normal = unit_vector(vector_sub(closest.intersection, center2));
-		// ===       ===
-		hitRatio = vector_dot(normal, vector_mul_n(lightDir, -1.0));
-		if (hitRatio < 0.0)
-			hitRatio = 0.0;
-		// printf("DEGREE: %f\n", hitRatio);
+		{
+			// === get P ===
+			double hypo = vector_length(vector_sub(closest.intersection, closest.obj->cylinder->position));
+			double distance = sqrt(hypo * hypo - closest.obj->cylinder->radius * closest.obj->cylinder->radius);
+			t_vector center1 = vector_add(closest.obj->cylinder->position, vector_mul_n(closest.obj->cylinder->rotation, distance));
+			t_vector center2 = vector_sub(closest.obj->cylinder->position, vector_mul_n(closest.obj->cylinder->rotation, distance));
+			double c1_dis = vector_length(vector_sub(closest.intersection, center1));
+			double c2_dis = vector_length(vector_sub(closest.intersection, center2));
+			t_vector normal;
+			if (c1_dis < c2_dis)
+				normal = unit_vector(vector_sub(closest.intersection, center1));
+			else
+				normal = unit_vector(vector_sub(closest.intersection, center2));
+			// ===       ===
+			hitRatio = vector_dot(normal, vector_mul_n(lightDir, -1.0));
+			if (hitRatio < 0.0)
+				hitRatio = 0.0;
+			// printf("DEGREE: %f\n", hitRatio);
+		}
 	}
 
 	double brightness = 1;
@@ -90,8 +115,11 @@ t_color color_calculate_light(t_data *data, t_ray ray, t_obj_t closest)
 	t_color color = get_color_of_object(*(closest.obj));
 	// color = color_mul_n(color, brightness);
 	t_color ambient_color = color_mul_n(data->scene.ambient.color, data->scene.ambient.ratio);
-	t_color shadow = color_mul_n(color_add(ambient_color, color), 0.5);
-	shadow = color_mul_n(shadow, data->scene.ambient.ratio);
+	// t_color shadow = color_mul_n(color_add(ambient_color, color), 0.5);
+	// shadow = color_mul_n(shadow, data->scene.ambient.ratio);
+	// shadow = color_mul_n(shadow, brightness);
+	t_color shadow = color_mul_n(color, data->scene.light.brightness);
+	shadow = color_mul_n(shadow, (0 + data->scene.ambient.ratio) / 2);
 	shadow = color_mul_n(shadow, brightness);
 
 	// color = color_add(color, color_mul_n(data->scene.ambient.color, data->scene.ambient.ratio));

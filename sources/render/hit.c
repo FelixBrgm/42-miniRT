@@ -114,12 +114,14 @@ double hit_cylinder(t_cylinder cylinder, t_ray ray)
 	double top_t;
 	double bot_t;
 	double tube1_t, tube2_t;
+	double t = -1.0;
 
-	// top_t = hit_circle(cylinder, ray, 1);
-	// bot_t = hit_circle(cylinder, ray, -1);
+	top_t = hit_circle(cylinder, ray, 1);
+	bot_t = hit_circle(cylinder, ray, -1);
 
 	t_vector rotation = vector_div_n(cylinder.rotation, vector_length(cylinder.rotation));
 	double radius = cylinder.radius;
+	tube1_t = -1.0;
 	// hit tube
 	t_vector new_ray_direction = vector_cross(ray.direction, rotation);
 	t_vector oc = vector_sub(ray.origin, cylinder.position);
@@ -132,18 +134,29 @@ double hit_cylinder(t_cylinder cylinder, t_ray ray)
 	else
 	{
 		tube1_t = (-b - sqrt(discriminant)) / (2.0 * a);
-		tube2_t = (-b + sqrt(discriminant)) / (2.0 * a);
+		// tube2_t = (-b + sqrt(discriminant)) / (2.0 * a);
 		if (tube1_t < T_MIN)
 		{
-			if (tube2_t < T_MIN)
-				return (-1.0);
-			return (tube2_t);
+			tube1_t = -1.0;
+			// if (tube2_t < T_MIN)
+				// return (-1.0);
+			// return (tube2_t);
 		}
 	}
-	return (tube1_t);
-
-	// if ((temp < t || t < 0) && temp > 0)
-	// 	t = temp;
+	// Check if hit is in range of cylinder height
+	t_vector intersection = vector_add(ray.origin, vector_mul_n(ray.direction, tube1_t));
+	double hypo = vector_length(vector_sub(intersection, cylinder.position));
+	double distance = sqrt(hypo * hypo - cylinder.radius * cylinder.radius);
+	if (distance > cylinder.height / 2)
+		tube1_t = -1.0;
+	// ===
+	if ((top_t < t || t < 0) && top_t >= 0)
+		t = top_t;
+	if ((bot_t < t || t < 0) && bot_t >= 0)
+		t = bot_t;
+	if ((tube1_t < t || t < 0) && tube1_t >= 0)
+		t = tube1_t;
+	return (t);
 }
 
 
