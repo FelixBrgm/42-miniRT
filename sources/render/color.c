@@ -55,24 +55,22 @@ t_color color_calculate_light(t_data *data, t_ray ray, t_obj_t closest)
 	{
 		t_cylinder cylinder = *(closest.obj->cylinder);
 		t_vector lightDir = unit_vector(vector_sub(closest.intersection, data->scene.light.position));
-		// t_vector normal = unit_vector(vector_sub(closest.intersection, closest.obj->cylinder->position));
-
+		t_vector rotation = unit_vector(cylinder.rotation);
 		// check if intersection is on top or bottom cap of cylinder
-		t_vector top_center = vector_add(cylinder.position, vector_mul_n(cylinder.rotation, cylinder.height / 2));
-		t_vector bot_center = vector_sub(cylinder.position, vector_mul_n(cylinder.rotation, cylinder.height / 2));
+		t_vector top_center = vector_add(cylinder.position, vector_mul_n(rotation, cylinder.height / 2));
+		t_vector bot_center = vector_sub(cylinder.position, vector_mul_n(rotation, cylinder.height / 2));
 		double dis1 = vector_length(vector_sub(closest.intersection, top_center));
 		double dis2 = vector_length(vector_sub(closest.intersection, bot_center));
 		if (dis1 <= cylinder.radius)
 		{
-			t_vector normal = unit_vector(cylinder.rotation);
+			t_vector normal = rotation;
 			hitRatio = vector_dot(normal, vector_mul_n(lightDir, -1.0));
 			if (hitRatio < 0.0)
 				hitRatio = 0.0;
-			
 		}
 		else if (dis2 <= cylinder.radius)
 		{
-			t_vector normal = unit_vector(vector_mul_n(cylinder.rotation, -1));
+			t_vector normal = vector_mul_n(rotation, -1);
 			hitRatio = vector_dot(normal, vector_mul_n(lightDir, -1.0));
 			if (hitRatio < 0.0)
 				hitRatio = 0.0;
