@@ -57,12 +57,55 @@ void	display_data_main(t_data data)
 	}
 }
 
+// definitely lost: 2,336 bytes in 81 blocks
+// ==706==    indirectly lost: 1,454 bytes in 227 blocks
+
+void	free_data(t_data *data)
+{
+	int	i;
+	t_scene scene;
+
+	i = 0;
+	while (data->img[i])
+	{
+		free(data->img[i]);
+		i++;
+	}
+	free(data->img);
+	scene = data->scene;
+	i = 0;
+	while (scene.objs[i])
+	{
+		if (scene.objs[i]->cylinder)
+		{
+			free(scene.objs[i]->cylinder);
+			scene.objs[i]->cylinder = NULL;
+		}
+		else if (scene.objs[i]->plane)
+		{
+			free(scene.objs[i]->plane);
+			scene.objs[i]->plane = NULL;
+		}
+		else if (scene.objs[i]->sphere)
+		{
+			free(scene.objs[i]->sphere);
+			scene.objs[i]->sphere = NULL;
+		}
+		i++;
+	}
+	free(scene.objs);
+	scene.objs = NULL;
+	free(data);
+}
+
 int main(int argc, char **argv)
 {
 	// t_data	data;
 	t_data	*data;
 
 	data = data_create();
+	if (!data)
+		return (0); // data malloc failed
 	if (parse_input(data, argc, argv) == -1)
 	{
 		printf("error in parser.\n");
@@ -70,9 +113,11 @@ int main(int argc, char **argv)
 	}
 	//display_data_main(*data);
 	if (!data)
-		exit(EXIT_FAILURE);
-	mlx_start(data);
+		exit(EXIT_FAILURE); // ???
+	// mlx_start(data);
 	printf("done!\n");
+	// FREE DATA
+	free_data(data);
 	return (0);
 }
 
@@ -84,7 +129,6 @@ t_data	*data_create(void)
 	data = ft_calloc(sizeof(t_data), 1);
 	if (!data)
 		return (NULL);
-
 	data->img = ft_calloc(PIXELS + 1, sizeof(t_color *));
 	i = 0;
 	while (i < PIXELS)

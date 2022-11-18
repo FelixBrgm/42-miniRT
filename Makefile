@@ -30,8 +30,19 @@ CFILES := main.c $(CFILES_INPUT) $(CFILES_MLX) $(CFILES_VECTOR) $(CFILES_RENDER)
 CFILES := $(addprefix $(SRC), $(CFILES))
 OFILES := $(CFILES:.c=.o)
 
-
 all: $(NAME)
+
+parser: $(OPARSER)
+	@$ make -C libraries/libs
+	$(CC) $(CFLAGS) -o $(NAME) sources/main.c sources/input/input_parser.c libraries/libs/libs.a
+
+clean_p: 
+	make clean -C libraries/libs
+	rm -rf sources/main.o sources/input/input_parser.o
+
+fclean_p: clean_p
+	make fclean -C libraries/libs
+	rm -rf $(NAME)
 
 $(NAME): $(OFILES)
 	@$ make -C libraries/libs

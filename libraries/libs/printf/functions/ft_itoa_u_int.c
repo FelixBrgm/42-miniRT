@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa_u_int.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pvznuzda <pashavznuzdajev@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 09:04:20 by fbruggem          #+#    #+#             */
-/*   Updated: 2022/06/06 12:42:37 by fbruggem         ###   ########.fr       */
+/*   Updated: 2022/11/18 16:23:33 by pvznuzda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ char	*ft_itoa_u_int(unsigned int n)
 	char	*res;
 
 	i = 0;
-	if (n < 0)
-		return (NULL);
+	// if (n < 0)
+	// 	return (NULL); parameter is already unsigned
 	if (n == 0)
 		return (ft_strdup("0"));
 	size = get_digits(n);

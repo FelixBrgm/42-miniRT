@@ -9,6 +9,41 @@ cy 50.0,0.0,20.6 0,0,1.0 14.2 21.42 10,0,255
 sp 0,0,20 20 255,0,0
 sp 0,0,20 20 255,0,0
 */
+
+void	free_split(char **split)
+{
+	int	i;
+
+	if (!split)
+		return ;
+	i = 0;
+	while (split[i])
+	{
+		free(split[i]);
+		split[i] = NULL;
+		i++;
+	}
+	free(split);
+	split = NULL;
+}
+
+void	free_list(t_list **list)
+{
+	t_list	*current;
+	t_list	*temp;
+
+	if (!list)
+		return ;
+	current = *list;
+	while (current)
+	{
+		free(current->content);
+		temp = current;
+		current = current->next;
+		free(temp);
+	}
+}
+
 int check_arguments(int argc, char **argv)
 {
     int arg_len;
@@ -37,6 +72,7 @@ int check_arguments(int argc, char **argv)
     }
     return (fd);
 }
+
 int read_into_list(int fd, t_list **line_list)
 {
     t_list  *new_item;
@@ -52,21 +88,27 @@ int read_into_list(int fd, t_list **line_list)
         {
             new_item = ft_lstnew((void *)(ft_strdup(line)));
             if (!new_item->content)
+			{
+				close(fd);
                 return (1); // MALLOC Error
+			}
             ft_lstadd_back(line_list, new_item);
         }
         free(line);
     }
+	close(fd);
     return (0);
 }
+
 void display_list(t_list *list)
 {
     while (list)
     {
-        printf("%s", list->content);
+        // printf("%s", list->content);
         list = list->next;
     }
 }
+
 char *get_identifier(char *line)
 {
     char    *identifier;
@@ -202,6 +244,7 @@ int check_coords(char *coords_line)
         }
         i++;
     }
+	free_split(coords_split);
     return (0);
 }
 // A 0.2 255,255,255
@@ -210,6 +253,8 @@ int check_ambient(char *line)
 	// FREE SPLIT
     char    **line_split;
     line_split = ft_split(line, ' '); // PROTECT SPLIT!
+	if (!line_split)
+		; // TODO
     if (get_split_len(line_split) != 3)
     {
         printf("Wrong amount of elements for ambient.\n");
@@ -222,6 +267,7 @@ int check_ambient(char *line)
     }
      if (check_coords(line_split[2]) == -1)
 		return (-1);
+	free_split(line_split);
     return (0);
 }
 // C -50,0,20 0,0,0 70
@@ -230,20 +276,31 @@ int check_camera(char *line)
 	// FREE SPLIT
     char    **line_split;
     line_split = ft_split(line, ' '); // PROTECT SPLIT!
+	if (!line_split)
+		; // TODO
     if (get_split_len(line_split) != 4)
     {
         printf("Wrong amount of elements for camera.\n");
+		free_split(line_split);
         return (-1);
     }
     if (check_coords(line_split[1]) == -1)
+	{
+		free_split(line_split);
 		return (-1);
+	}
 	if (check_coords(line_split[2]) == -1)
+	{
+		free_split(line_split);
 		return (-1);
+	}
     if (check_float(line_split[3]) == -1)
     {
         printf("Wrong FOV format.\n");
+		free_split(line_split);
         return (-1);
     }
+	free_split(line_split);
     return (0);
 }
 // L -40,0,30 0.7 255,255,255
@@ -255,17 +312,26 @@ int check_light(char *line)
     if (get_split_len(line_split) != 4)
     {
         printf("Wrong amount of elements for light.\n");
+		free_split(line_split);
         return (-1);
     }
     if (check_coords(line_split[1]) == -1)
+	{
+		free_split(line_split);
 		return (-1);
+	}
     if (check_float(line_split[2]) == -1)
     {
         printf("Wrong brightness format.\n");
+		free_split(line_split);
         return (-1);
     }
     if (check_coords(line_split[3]) == -1)
+	{
+		free_split(line_split);
 		return (-1);
+	}
+	free_split(line_split);
     return (0);
 }
 // sp 0,0,20 20 255,0,0
@@ -277,17 +343,26 @@ int check_sphere(char *line)
     if (get_split_len(line_split) != 4)
     {
         printf("Wrong amount of elements for sphere.\n");
+		free_split(line_split);
         return (-1);
     }
 	if (check_coords(line_split[1]) == -1)
+	{
+		free_split(line_split);
 		return (-1);
+	}
     if (check_float(line_split[2]) == -1)
     {
         printf("Wrong diameter format.\n");
+		free_split(line_split);
         return (-1);
     }
 	if (check_coords(line_split[3]) == -1)
+	{
+		free_split(line_split);
 		return (-1);
+	}
+	free_split(line_split);
     return (0);
 }
 // pl 0,0,0 0,1.0,0 255,0,225
@@ -299,15 +374,25 @@ int check_plane(char *line)
     if (get_split_len(line_split) != 4)
     {
         printf("Wrong amount of elements for plane.\n");
+		free_split(line_split);
         return (-1);
     }
 	if (check_coords(line_split[1]) == -1)
+	{
+		free_split(line_split);
 		return (-1);
+	}
     if (check_coords(line_split[2]) == -1) // should be normalized to values from 0.0 to 1.0!
+	{
+		free_split(line_split);
 		return (-1);
+	}
     if (check_coords(line_split[3]) == -1)
+	{
+		free_split(line_split);
 		return (-1);
-    
+	}
+	free_split(line_split);
     return (0);
 }
 // cy 50.0,0.0,20.6 0,0,1.0 14.2 21.42 10,0,255
@@ -319,27 +404,38 @@ int check_cylinder(char *line)
     if (get_split_len(line_split) != 6)
     {
         printf("Wrong amount of elements for cylinder.\n");
+		free_split(line_split);
         return (-1);
     }
 	if (check_coords(line_split[1]) == -1)
+	{
+		free_split(line_split);
 		return (-1);
+	}
 	if (check_coords(line_split[2]) == -1) // should be normalized to values from 0.0 to 1.0!
+	{
+		free_split(line_split);
 		return (-1);
+	}
     if (check_float(line_split[3]) == -1)
     {
         printf("Wrong diameter format.\n");
+		free_split(line_split);
         return (-1);
     }
     if (check_float(line_split[4]) == -1)
     {
         printf("Wrong height format.\n");
+		free_split(line_split);
         return (-1);
     }
 	if (check_coords(line_split[5]) == -1)
 	{
 		printf("wrong color format.\n");
+		free_split(line_split);
 		return (-1);
 	}
+	free_split(line_split);
     return (0);
 }
 int check_lines(t_list *line_list)
@@ -409,11 +505,17 @@ int parse_ambient(t_data *data, char *line)
 	char	**color_split;
 
 	line_split = ft_split(line, ' ');
+	if (!line_split)
+		; // TOOD;
 	data->scene.ambient.ratio = ft_atof(line_split[1]);
 	color_split = ft_split(line_split[2], ',');
+	if (!color_split)
+		; // TODO
 	data->scene.ambient.color.r = ft_atoi(color_split[0]) / 255.0;
 	data->scene.ambient.color.g = ft_atoi(color_split[1]) / 255.0;
 	data->scene.ambient.color.b = ft_atoi(color_split[2]) / 255.0;
+	free(color_split);
+	free(line_split);
 	return (0);
 }
 // C -50,0,20 0,0,0 70
@@ -423,18 +525,27 @@ int parse_camera(t_data *data, char *line)
 	char	**coords_split;
 
 	line_split = ft_split(line, ' ');
+	if (!line_split)
+		; // TODO
 	coords_split = ft_split(line_split[1], ',');
+	if (!coords_split)
+		; // TODO
 	data->scene.camera.position.x = ft_atof(coords_split[0]);
 	data->scene.camera.position.y = ft_atof(coords_split[1]);
 	data->scene.camera.position.z = ft_atof(coords_split[2]);
 	// free coords split;
+	free_split(coords_split);
 	coords_split = ft_split(line_split[2], ',');
+	if (!coords_split)
+		; // TODO
 	data->scene.camera.rotation.x = ft_atof(coords_split[0]);
 	data->scene.camera.rotation.y = ft_atof(coords_split[1]);
 	data->scene.camera.rotation.z = ft_atof(coords_split[2]);
 	// free coords split;
+	free_split(coords_split);
 	data->scene.camera.fov = ft_atoi(line_split[3]);
 	// free line split;
+	free_split(line_split);
 	return (0);
 }
 // L -40,0,30 0.7 255,255,255
@@ -444,13 +555,19 @@ int parse_light(t_data *data, char *line)
 	char	**coords_split;
 	
 	line_split = ft_split(line, ' ');
+	if (!line_split)
+		; // TODO
 	coords_split = ft_split(line_split[1], ',');
+	if (!coords_split)
+		; // TODO
 	data->scene.light.position.x = ft_atof(coords_split[0]);
 	data->scene.light.position.y = ft_atof(coords_split[1]);
 	data->scene.light.position.z = ft_atof(coords_split[2]);
 	// free coords split;
+	free_split(coords_split);
 	data->scene.light.brightness = ft_atof(line_split[2]);
 	// free line split;
+	free_split(line_split);
 	return (0);
 }
 // sp 0,0,20 20 255,0,0
@@ -460,25 +577,36 @@ int parse_sphere(t_data *data, char *line, int *obj_i)
 	char	**coords_split;
 
 	data->scene.objs[*obj_i] = malloc (sizeof(t_obj));
+	if (!data->scene.objs[*obj_i])
+		; // TODO
 	data->scene.objs[*obj_i]->sphere = malloc(sizeof(t_sphere));
-	// protect malloc
+	if (!data->scene.objs[*obj_i]->sphere)
+		; // TODO
 	line_split = ft_split(line, ' ');
+	if (!line_split)
+		; // TODO
 	coords_split = ft_split(line_split[1], ',');
+	if (!coords_split)
+		; // TODO
 	data->scene.objs[*obj_i]->sphere->position.x = ft_atof(coords_split[0]);
 	data->scene.objs[*obj_i]->sphere->position.y = ft_atof(coords_split[1]);
 	data->scene.objs[*obj_i]->sphere->position.z = ft_atof(coords_split[2]);
 	// free coords split;
+	free_split(coords_split);
 	data->scene.objs[*obj_i]->sphere->radius = ft_atof(line_split[2]) / 2;
 	coords_split = ft_split(line_split[3], ',');
+	if (!coords_split)
+		; // TODO
 	data->scene.objs[*obj_i]->sphere->color.r = ft_atoi(coords_split[0]) / 255.0;
 	data->scene.objs[*obj_i]->sphere->color.g = ft_atoi(coords_split[1]) / 255.0;
 	data->scene.objs[*obj_i]->sphere->color.b = ft_atoi(coords_split[2]) / 255.0;
 	// free coords split;
+	free_split(coords_split);
 	data->scene.objs[*obj_i]->plane = NULL;
 	data->scene.objs[*obj_i]->cylinder = NULL;
 	*obj_i = *obj_i + 1;
 	// free line split;
-
+	free_split(line_split);
 	return (0);
 }
 // pl 0,0,0 0,1.0,0 255,0,225
@@ -488,28 +616,43 @@ int parse_plane(t_data *data, char *line, int *obj_i)
 	char	**coords_split;
 
 	data->scene.objs[*obj_i] = malloc (sizeof(t_obj));
+	if (!data->scene.objs[*obj_i])
+		; // TODO
 	data->scene.objs[*obj_i]->plane = malloc(sizeof(t_plane));
-	// protect malloc
+	if (!data->scene.objs[*obj_i]->plane)
+		; // TODO
 	line_split = ft_split(line, ' ');
+	if (!line_split)
+		; // TODO
 	coords_split = ft_split(line_split[1], ',');
+	if (!coords_split)
+		; // TODO
 	data->scene.objs[*obj_i]->plane->position.x = ft_atof(coords_split[0]);
 	data->scene.objs[*obj_i]->plane->position.y = ft_atof(coords_split[1]);
 	data->scene.objs[*obj_i]->plane->position.z = ft_atof(coords_split[2]);
 	// free coords split;
+	free_split(coords_split);
 	coords_split = ft_split(line_split[2], ',');
-	data->scene.objs[*obj_i]->plane->rotation.x = ft_atof(coords_split[0]); // NORMALIZED
+	if (!coords_split)
+		; // TODO
+	data->scene.objs[*obj_i]->plane->rotation.x = ft_atof(coords_split[0]); // NORMALIZE in checker
 	data->scene.objs[*obj_i]->plane->rotation.y = ft_atof(coords_split[1]);
 	data->scene.objs[*obj_i]->plane->rotation.z = ft_atof(coords_split[2]);
 	// free coords split;
+	free_split(coords_split);
 	coords_split = ft_split(line_split[3], ',');
+	if (!coords_split)
+		; // TODO
 	data->scene.objs[*obj_i]->plane->color.r = ft_atoi(coords_split[0]) / 255.0;
 	data->scene.objs[*obj_i]->plane->color.g = ft_atoi(coords_split[1]) / 255.0;
 	data->scene.objs[*obj_i]->plane->color.b = ft_atoi(coords_split[2]) / 255.0;
 	// free coords split;
+	free_split(coords_split);
 	data->scene.objs[*obj_i]->sphere = NULL;
 	data->scene.objs[*obj_i]->cylinder = NULL;
 	*obj_i = *obj_i + 1;
 	// free line split;
+	free_split(line_split);
 	return (0);
 }
 // cy 50.0,0.0,20.6 0,0,1.0 14.2 21.42 10,0,255
@@ -519,29 +662,45 @@ int parse_cylinder(t_data *data, char *line, int *obj_i)
 	char	**coords_split;
 
 	data->scene.objs[*obj_i] = malloc (sizeof(t_obj));
+	if (!data->scene.objs[*obj_i])
+		; // TODO
 	data->scene.objs[*obj_i]->cylinder = malloc(sizeof(t_cylinder));
+	if (!data->scene.objs[*obj_i]->cylinder)
+		; // TODO
 	line_split = ft_split(line, ' ');
+	if (!line_split)
+		; // TODO
 	coords_split = ft_split(line_split[1], ',');
+	if (!coords_split)
+		; // TODO
 	data->scene.objs[*obj_i]->cylinder->position.x = ft_atof(coords_split[0]);
 	data->scene.objs[*obj_i]->cylinder->position.y = ft_atof(coords_split[1]);
 	data->scene.objs[*obj_i]->cylinder->position.z = ft_atof(coords_split[2]);
 	// free coords split;
+	free_split(coords_split);
 	coords_split = ft_split(line_split[2], ',');
+	if (!coords_split)
+		; // TODO
 	data->scene.objs[*obj_i]->cylinder->rotation.x = ft_atof(coords_split[0]); // NORMALIZED
 	data->scene.objs[*obj_i]->cylinder->rotation.y = ft_atof(coords_split[1]);
 	data->scene.objs[*obj_i]->cylinder->rotation.z = ft_atof(coords_split[2]);
 	// free coords split;
+	free_split(coords_split);
 	data->scene.objs[*obj_i]->cylinder->radius = ft_atof(line_split[3]) / 2;
 	data->scene.objs[*obj_i]->cylinder->height = ft_atof(line_split[4]);
 	coords_split = ft_split(line_split[5], ',');
+	if (!coords_split)
+		; // TODO
 	data->scene.objs[*obj_i]->cylinder->color.r = ft_atoi(coords_split[0]) / 255;
 	data->scene.objs[*obj_i]->cylinder->color.g = ft_atoi(coords_split[1]) / 255;
 	data->scene.objs[*obj_i]->cylinder->color.b = ft_atoi(coords_split[2]) / 255;
 	// free coords split;
+	free_split(coords_split);
 	data->scene.objs[*obj_i]->sphere = NULL;
 	data->scene.objs[*obj_i]->plane = NULL;
 	*obj_i = *obj_i + 1;
 	// free line split;
+	free_split(line_split);
 	return (0);
 }
 
@@ -628,35 +787,41 @@ int    parse_input(t_data *data, int argc, char **argv)
     int     obj_count;
     t_list  *line_list;
 
-    fd = check_arguments(argc, argv);
+    fd = check_arguments(argc, argv); // done
     if (fd == -1)
-        return (-1);
+        return (-1); // done
     line_list = NULL;
     if (read_into_list(fd, &line_list))
-        return (-1);
-    display_list(line_list);
+	{
+		free_list(&line_list);
+        return (-1); // probably need to free list(malloc failed somewhere in list creation)
+	}
+    // display_list(line_list);
     obj_count = check_identifiers(line_list);
     if (obj_count == -1)
     {
         printf("Wrong identifiers.\n");
+		free_list(&line_list);
         return (-1);
     }
     if (check_lines(line_list) == -1)
     {
         printf("Check error.\n");
+		free_list(&line_list);
         return (-1);
     }
     if (obj_count > 0)
     {
         data->scene.objs = malloc(sizeof(t_obj *) * (obj_count + 1));
         if (!data->scene.objs)
-            ; // MALLOC FAILED, CLEAN EXIT.
+		{
+			free_list(&line_list);
+            return (-1); // MALLOC FAILED, CLEAN EXIT.
+		}
 		data->scene.objs[obj_count] = NULL;
-		// data->scene.objs[obj_count].cylinder = NULL;
-		// data->scene.objs[obj_count].plane = NULL;
-		// data->scene.objs[obj_count].sphere = NULL;
     }
     parse_lines(data, line_list);
+	free_list(&line_list);
 	// display_data(*data);
 	return (0);
 }
