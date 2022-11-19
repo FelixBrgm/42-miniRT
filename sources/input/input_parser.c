@@ -445,6 +445,8 @@ int check_lines(t_list *line_list)
     while (line_list)
     {
         identifier = get_identifier(line_list->content); //might be NULL
+		if (!identifier)
+			; // TODO
         if (!ft_strncmp(identifier, "A", 2))
             check_res = check_ambient(line_list->content);
         else if (!ft_strncmp(identifier, "C", 2))
@@ -460,6 +462,7 @@ int check_lines(t_list *line_list)
         if (check_res == -1)
             return (-1);
         line_list = line_list->next;
+		free(identifier);
     }
     return (0);
 }
@@ -506,7 +509,7 @@ int parse_ambient(t_data *data, char *line)
 
 	line_split = ft_split(line, ' ');
 	if (!line_split)
-		; // TOOD;
+		; // TODO;
 	data->scene.ambient.ratio = ft_atof(line_split[1]);
 	color_split = ft_split(line_split[2], ',');
 	if (!color_split)
@@ -514,8 +517,8 @@ int parse_ambient(t_data *data, char *line)
 	data->scene.ambient.color.r = ft_atoi(color_split[0]) / 255.0;
 	data->scene.ambient.color.g = ft_atoi(color_split[1]) / 255.0;
 	data->scene.ambient.color.b = ft_atoi(color_split[2]) / 255.0;
-	free(color_split);
-	free(line_split);
+	free_split(color_split);
+	free_split(line_split);
 	return (0);
 }
 // C -50,0,20 0,0,0 70
@@ -706,29 +709,32 @@ int parse_cylinder(t_data *data, char *line, int *obj_i)
 
 int  parse_lines(t_data *data, t_list *line_list)
 {
- char    *identifier;
- int     parse_res;
- int     obj_i;
- obj_i = 0;
- while (line_list)
- {
-     identifier = get_identifier(line_list->content); //might be NULL
-	 printf("identifier: %s\n", identifier);
-     if (!ft_strncmp(identifier, "A", 2))
-         parse_res = parse_ambient(data, line_list->content);
-     else if (!ft_strncmp(identifier, "C", 2))
-         parse_res = parse_camera(data, line_list->content);
-     else if (!ft_strncmp(identifier, "L", 2))
-         parse_res = parse_light(data, line_list->content);
-     else if (!ft_strncmp(identifier, "sp", 3))
-         parse_res = parse_sphere(data, line_list->content, &obj_i);
-     else if (!ft_strncmp(identifier, "pl", 3))
-         parse_res = parse_plane(data, line_list->content, &obj_i);
-     else if (!ft_strncmp(identifier, "cy", 3))
-         parse_res = parse_cylinder(data, line_list->content, &obj_i);
-     line_list = line_list->next;
- }
- return (0);
+	char    *identifier;
+	int     parse_res;
+	int     obj_i;
+
+	obj_i = 0;
+	while (line_list)
+	{
+		identifier = get_identifier(line_list->content); //might be NULL
+		if (!identifier)
+		; // TODO
+		if (!ft_strncmp(identifier, "A", 2))
+			parse_res = parse_ambient(data, line_list->content);
+		else if (!ft_strncmp(identifier, "C", 2))
+			parse_res = parse_camera(data, line_list->content);
+		else if (!ft_strncmp(identifier, "L", 2))
+			parse_res = parse_light(data, line_list->content);
+		else if (!ft_strncmp(identifier, "sp", 3))
+			parse_res = parse_sphere(data, line_list->content, &obj_i);
+		else if (!ft_strncmp(identifier, "pl", 3))
+			parse_res = parse_plane(data, line_list->content, &obj_i);
+		else if (!ft_strncmp(identifier, "cy", 3))
+			parse_res = parse_cylinder(data, line_list->content, &obj_i);
+		line_list = line_list->next;
+		free(identifier);
+	}
+	return (0);
 }
 
 void	display_data(t_data data)

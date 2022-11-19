@@ -91,6 +91,7 @@ void	free_data(t_data *data)
 			free(scene.objs[i]->sphere);
 			scene.objs[i]->sphere = NULL;
 		}
+		free(scene.objs[i]);
 		i++;
 	}
 	free(scene.objs);

@@ -34,7 +34,7 @@ all: $(NAME)
 
 parser: $(OPARSER)
 	@$ make -C libraries/libs
-	$(CC) $(CFLAGS) -o $(NAME) sources/main.c sources/input/input_parser.c libraries/libs/libs.a
+	$(CC) $(CFLAGS) -g -o $(NAME) sources/main.c sources/input/input_parser.c libraries/libs/libs.a
 
 clean_p: 
 	make clean -C libraries/libs
