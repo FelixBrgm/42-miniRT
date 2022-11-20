@@ -11,7 +11,8 @@ VECTOR := vector/
 MLX := mlx/
 RENDER := render/
 
-CFILES_INPUT := input_parser.c
+CFILES_INPUT := input_parser.c utils1.c utils2.c utils3.c utils4.c utils5.c	\
+				utils6.c utils7.c utils8.c utils9.c utils10.c
 CFILES_INPUT := $(addprefix $(INPUT), $(CFILES_INPUT))
 
 CFILES_VECTOR := vector_operations.c vector_utils.c
@@ -20,7 +21,7 @@ CFILES_VECTOR := $(addprefix $(VECTOR), $(CFILES_VECTOR))
 CFILES_MLX := mlx_start.c
 CFILES_MLX := $(addprefix $(MLX), $(CFILES_MLX))
 
-CFILES_RENDER := render.c calculate.c ray.c color.c hit.c
+CFILES_RENDER := render.c calculate.c ray.c color.c hit.c hit_utils.c
 CFILES_RENDER := $(addprefix $(RENDER), $(CFILES_RENDER))
 
 

@@ -41,6 +41,10 @@ typedef struct s_data
 	int			pixel_samples;
 }				t_data;
 
+# include "parser.h"
+# include "render.h"
+
+
 void	mlx_start(t_data *data);
 
 #endif
