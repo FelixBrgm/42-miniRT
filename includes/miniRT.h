@@ -6,7 +6,7 @@
 /*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 22:12:47 by fbruggem          #+#    #+#             */
-/*   Updated: 2022/11/20 22:17:43 by fbruggem         ###   ########.fr       */
+/*   Updated: 2022/11/21 00:28:35 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include "scene.h"
 # include "../libraries/libs/libs.h"
 # include "../libraries/mlxlib/include/MLX42/MLX42.h"
+# include "parser.h"
+# include "render.h"
 
 # ifndef WIDTH
 #  define WIDTH 1920
@@ -52,10 +54,6 @@ typedef struct s_data
 	t_color		**img;
 	int			pixel_samples;
 }				t_data;
-
-# include "parser.h"
-# include "render.h"
-
 
 void	mlx_start(t_data *data);
 

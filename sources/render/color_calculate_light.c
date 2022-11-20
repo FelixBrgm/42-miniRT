@@ -6,7 +6,7 @@
 /*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 22:07:43 by fbruggem          #+#    #+#             */
-/*   Updated: 2022/11/21 00:03:49 by fbruggem         ###   ########.fr       */
+/*   Updated: 2022/11/21 00:26:00 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ double	hit_ratio_sphere(t_data *data, t_obj_t closest)
 	t_vector	normal;
 	double		hit_ratio;
 
-	light_dir = unit_vector(vector_sub(closest.intersection, data->scene.light.position));
-	normal = unit_vector(vector_sub(closest.intersection, closest.obj->sphere->position));
+	light_dir = unit_vector(vector_sub(
+				closest.intersection, data->scene.light.position));
+	normal = unit_vector(vector_sub(
+				closest.intersection, closest.obj->sphere->position));
 	hit_ratio = vector_dot(normal, vector_mul_n(light_dir, -1.0));
 	if (hit_ratio < 0.0)
 		hit_ratio = 0.0;
@@ -80,7 +82,6 @@ typedef struct s_buck_this_khit
 	t_color		color;
 	double		brightness;
 }				t_buck_this_khit;
-
 
 t_color	color_calculate_light(t_data *data, t_obj_t closest)
 {
