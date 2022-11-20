@@ -1,6 +1,11 @@
 {
 	"files.associations": {
 		"__node_handle": "c",
-		"minirt.h": "c"
+		"minirt.h": "c",
+		"scene.h": "c",
+		"libs.h": "c",
+		"object.h": "c",
+		"light.h": "c",
+		"parser.h": "c"
 	}
 }

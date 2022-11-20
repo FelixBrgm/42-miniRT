@@ -44,6 +44,15 @@ t_ray		ray_create(t_vector orig, t_vector dir);
 t_vector	ray_at(t_ray ray, double t);
 
 // Hit
+t_obj_t hit_closest_obj(t_data *data, t_ray ray);
+double	hit_object(t_obj obj, t_ray ray);
+double	hit_sphere(t_sphere sphere, t_ray ray);
+double	hit_plane(t_plane plane, t_ray ray);
+double	hit_circle(t_cylinder cylinder, t_ray ray, int direction);
+double	check_cylinder_hit_distance(t_ray ray, t_cylinder cylinder, double t);
+void	get_abc(t_cylinder cyl, t_ray ray, double abc[3]);
+double	hit_tube(t_cylinder cylinder, t_ray ray);
+double	hit_cylinder(t_cylinder cylinder, t_ray ray);
 t_obj_t		hit_closest_obj(t_data *data, t_ray ray);
 
 // Color

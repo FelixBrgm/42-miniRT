@@ -1,5 +1,6 @@
 #include "../../includes/miniRT.h"
 #include "../../includes/render.h"
+
 void	render_put_to_window(t_data *data);
 void	render_convert_rgb_to_pixels(t_data *data);
 
@@ -12,7 +13,6 @@ void	render(void *param)
 	calculate(data);
 	render_put_to_window(data);
 }
-
 
 void	render_put_to_window(t_data *data)
 {
