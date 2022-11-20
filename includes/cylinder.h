@@ -1,5 +1,17 @@
-#ifndef CYLINDER
-# define CYLINDER
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cylinder.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/20 22:12:10 by fbruggem          #+#    #+#             */
+/*   Updated: 2022/11/20 22:12:37 by fbruggem         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef CYLINDER_H
+# define CYLINDER_H
 
 # include "vector.h"
 # include "colors.h"
