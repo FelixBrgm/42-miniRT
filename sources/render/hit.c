@@ -76,7 +76,6 @@ double hit_sphere(t_sphere sphere, t_ray ray)
 
 double hit_plane(t_plane plane, t_ray ray)
 {
-	double	d;
 	double	t;
 	double	denom;
 
@@ -113,7 +112,7 @@ double hit_cylinder(t_cylinder cylinder, t_ray ray)
 {
 	double top_t;
 	double bot_t;
-	double tube1_t, tube2_t;
+	double tube1_t;
 	double t = -1.0;
 
 	top_t = hit_circle(cylinder, ray, 1);

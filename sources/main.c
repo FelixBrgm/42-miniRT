@@ -3,59 +3,59 @@
 # include "../includes/render.h"
 t_data	*data_create(void);
 
-void	display_data_main(t_data data)
-{
-	int	i;
+// void	display_data_main(t_data data)
+// {
+// 	int	i;
 
-	t_obj **objs;
-	objs = data.scene.objs;
+// 	t_obj **objs;
+// 	objs = data.scene.objs;
 
-	i = 0;
-	printf("*** DATA ***\n");
-	printf("AMBIENT\n");
-	printf("ratio: %.2f\n", data.scene.ambient.ratio);
-	printf("r = %.4f, g = %.4f, b = %.4f\n", data.scene.ambient.color.r, data.scene.ambient.color.g, data.scene.ambient.color.b);
-	printf("======\n");
-	printf("CAMERA\n");
-	printf("pos_x = %.2f, pos_y = %.2f, pos_z = %.2f\n", data.scene.camera.position.x, data.scene.camera.position.y, data.scene.camera.position.z);
-	printf("rot_x = %.2f, rot_y = %.2f, rot_z = %.2f\n", data.scene.camera.rotation.x, data.scene.camera.rotation.y, data.scene.camera.rotation.z);
-	printf("fov = %i\n", data.scene.camera.fov);
-	printf("======\n");
-	printf("LIGHT\n");
-	printf("pos_x = %.2f, pos_y = %.2f, pos_z = %.2f\n", data.scene.light.position.x, data.scene.light.position.y, data.scene.light.position.z);
-	printf("brightness: %.2f\n", data.scene.light.brightness);
-	printf("seg\n");
-	while (objs[i])
-	{
-		if (objs[i]->cylinder)
-		{
-			printf("CYLINDER\n");
-			printf("pos_x = %.2f, pos_y = %.2f, pos_z = %.2f\n", objs[i]->cylinder->position.x, objs[i]->cylinder->position.y, objs[i]->cylinder->position.z);
-			printf("rot_x = %.2f, rot_y = %.2f, rot_z = %.2f\n", objs[i]->cylinder->rotation.x, objs[i]->cylinder->rotation.y, objs[i]->cylinder->rotation.z);
-			printf("radius = %.2f\n", objs[i]->cylinder->radius);
-			printf("height = %.2f\n", objs[i]->cylinder->height);
-			printf("r = %.0f, g = %.0f, b = %.0f\n", objs[i]->cylinder->color.r, objs[i]->cylinder->color.g, objs[i]->cylinder->color.b);
-			printf("======\n");
-		}
-		else if (objs[i]->plane)
-		{
-			printf("PLANE\n");
-			printf("pos_x = %.2f, pos_y = %.2f, pos_z = %.2f\n", objs[i]->plane->position.x, objs[i]->plane->position.y, objs[i]->plane->position.z);
-			printf("rot_x = %.2f, rot_y = %.2f, rot_z = %.2f\n", objs[i]->plane->rotation.x, objs[i]->plane->rotation.y, objs[i]->plane->rotation.z);
-			printf("r = %.0f, g = %.0f, b = %.0f\n", objs[i]->plane->color.r, objs[i]->plane->color.g, objs[i]->plane->color.b);
-			printf("======\n");
-		}
-		else if (objs[i]->sphere)
-		{
-			printf("SPHERE\n");
-			printf("pos_x = %.2f, pos_y = %.2f, pos_z = %.2f\n", objs[i]->sphere->position.x, objs[i]->sphere->position.y, objs[i]->sphere->position.z);
-			printf("radius = %.2f\n", objs[i]->sphere->radius);
-			printf("r = %.0f, g = %.0f, b = %.0f\n", objs[i]->sphere->color.r, objs[i]->sphere->color.g, objs[i]->sphere->color.b);
-			printf("======\n");
-		}
-		i++;
-	}
-}
+// 	i = 0;
+// 	printf("*** DATA ***\n");
+// 	printf("AMBIENT\n");
+// 	printf("ratio: %.2f\n", data.scene.ambient.ratio);
+// 	printf("r = %.4f, g = %.4f, b = %.4f\n", data.scene.ambient.color.r, data.scene.ambient.color.g, data.scene.ambient.color.b);
+// 	printf("======\n");
+// 	printf("CAMERA\n");
+// 	printf("pos_x = %.2f, pos_y = %.2f, pos_z = %.2f\n", data.scene.camera.position.x, data.scene.camera.position.y, data.scene.camera.position.z);
+// 	printf("rot_x = %.2f, rot_y = %.2f, rot_z = %.2f\n", data.scene.camera.rotation.x, data.scene.camera.rotation.y, data.scene.camera.rotation.z);
+// 	printf("fov = %i\n", data.scene.camera.fov);
+// 	printf("======\n");
+// 	printf("LIGHT\n");
+// 	printf("pos_x = %.2f, pos_y = %.2f, pos_z = %.2f\n", data.scene.light.position.x, data.scene.light.position.y, data.scene.light.position.z);
+// 	printf("brightness: %.2f\n", data.scene.light.brightness);
+// 	printf("seg\n");
+// 	while (objs[i])
+// 	{
+// 		if (objs[i]->cylinder)
+// 		{
+// 			printf("CYLINDER\n");
+// 			printf("pos_x = %.2f, pos_y = %.2f, pos_z = %.2f\n", objs[i]->cylinder->position.x, objs[i]->cylinder->position.y, objs[i]->cylinder->position.z);
+// 			printf("rot_x = %.2f, rot_y = %.2f, rot_z = %.2f\n", objs[i]->cylinder->rotation.x, objs[i]->cylinder->rotation.y, objs[i]->cylinder->rotation.z);
+// 			printf("radius = %.2f\n", objs[i]->cylinder->radius);
+// 			printf("height = %.2f\n", objs[i]->cylinder->height);
+// 			printf("r = %.0f, g = %.0f, b = %.0f\n", objs[i]->cylinder->color.r, objs[i]->cylinder->color.g, objs[i]->cylinder->color.b);
+// 			printf("======\n");
+// 		}
+// 		else if (objs[i]->plane)
+// 		{
+// 			printf("PLANE\n");
+// 			printf("pos_x = %.2f, pos_y = %.2f, pos_z = %.2f\n", objs[i]->plane->position.x, objs[i]->plane->position.y, objs[i]->plane->position.z);
+// 			printf("rot_x = %.2f, rot_y = %.2f, rot_z = %.2f\n", objs[i]->plane->rotation.x, objs[i]->plane->rotation.y, objs[i]->plane->rotation.z);
+// 			printf("r = %.0f, g = %.0f, b = %.0f\n", objs[i]->plane->color.r, objs[i]->plane->color.g, objs[i]->plane->color.b);
+// 			printf("======\n");
+// 		}
+// 		else if (objs[i]->sphere)
+// 		{
+// 			printf("SPHERE\n");
+// 			printf("pos_x = %.2f, pos_y = %.2f, pos_z = %.2f\n", objs[i]->sphere->position.x, objs[i]->sphere->position.y, objs[i]->sphere->position.z);
+// 			printf("radius = %.2f\n", objs[i]->sphere->radius);
+// 			printf("r = %.0f, g = %.0f, b = %.0f\n", objs[i]->sphere->color.r, objs[i]->sphere->color.g, objs[i]->sphere->color.b);
+// 			printf("======\n");
+// 		}
+// 		i++;
+// 	}
+// }
 
 // definitely lost: 2,336 bytes in 81 blocks
 // ==706==    indirectly lost: 1,454 bytes in 227 blocks
@@ -109,14 +109,14 @@ int main(int argc, char **argv)
 		return (0); // data malloc failed
 	if (parse_input(data, argc, argv) == -1)
 	{
-		printf("error in parser.\n");
+		ft_printf("error in parser.\n");
 		return (0);
 	}
 	//display_data_main(*data);
 	if (!data)
 		exit(EXIT_FAILURE); // ???
-	// mlx_start(data);
-	printf("done!\n");
+	mlx_start(data);
+	ft_printf("done!\n");
 	// FREE DATA
 	free_data(data);
 	return (0);

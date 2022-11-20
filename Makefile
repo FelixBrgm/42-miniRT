@@ -1,5 +1,5 @@
 CC := gcc
-#CFLAGS := -Wall -Werror -Wextra
+CFLAGS := -Wall -Werror -Wextra
 
 
 sources_path = $(addprefix ./sources/, $(sources))
@@ -57,5 +57,11 @@ fclean: clean
 	make fclean -C libraries/mlxlib
 	make fclean -C libraries/libs
 	rm -rf $(NAME)
+
+test: 
+	@$ make -C libraries/libs
+	@$ make -C libraries/mlxlib
+	$(CC) -o $(NAME) $(OFILES) libraries/libs/libs.a libraries/mlxlib/libmlx42.a -I include -lglfw -L "/Users/$(USER)/goinfre/.brew/opt/glfw/lib/"
+	./miniRT box.rt
 
 re: fclean all
