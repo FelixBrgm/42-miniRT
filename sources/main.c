@@ -117,7 +117,7 @@ int main(int argc, char **argv)
 		return (0);
 	}
 	//display_data_main(*data);
-	mlx_start(data);
+	// mlx_start(data);
 	ft_printf("done!\n");
 	free_data(data, 0);
 	return (0);
