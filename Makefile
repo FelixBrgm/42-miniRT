@@ -21,7 +21,8 @@ CFILES_VECTOR := $(addprefix $(VECTOR), $(CFILES_VECTOR))
 CFILES_MLX := mlx_start.c
 CFILES_MLX := $(addprefix $(MLX), $(CFILES_MLX))
 
-CFILES_RENDER := render.c calculate.c ray.c color.c hit.c hit_utils.c
+CFILES_RENDER := render.c calculate.c ray.c color.c hit.c color_calculate_light.c color_utils.c color_calculate_light_cylinder.c
+
 CFILES_RENDER := $(addprefix $(RENDER), $(CFILES_RENDER))
 
 

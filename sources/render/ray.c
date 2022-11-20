@@ -22,7 +22,7 @@ t_ray ray_calculate(t_calculate cal_obj, int x, int y)
 	u = (double) x / (double) (WIDTH - 1);
 	v = (double) y / (double) (HEIGHT - 1);
 	ray = ray_create(cal_obj.origin, 
-		vector_sub(vector_add(cal_obj.lowerLeftCorner, vector_add(vector_mul_n(cal_obj.horizontal, u),
+		vector_sub(vector_add(cal_obj.lower_left_corner, vector_add(vector_mul_n(cal_obj.horizontal, u),
 		vector_mul_n(cal_obj.vertical, v))), cal_obj.origin));
 	return (ray);
 }

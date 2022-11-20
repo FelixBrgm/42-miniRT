@@ -6,7 +6,7 @@
 /*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 12:17:57 by fbruggem          #+#    #+#             */
-/*   Updated: 2022/11/20 12:26:09 by fbruggem         ###   ########.fr       */
+/*   Updated: 2022/11/20 22:14:13 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_calculate	calculate_setup(t_data *data)
 	cal_obj.origin = camera.position;
 	cal_obj.horizontal = vector_mul(vector_create(vp_width, 0, 0), vdata.u);
 	cal_obj.vertical = vector_mul(vector_create(0, vp_height, 0), vdata.v);
-	cal_obj.lowerLeftCorner = vector_sub(vector_sub(vector_sub(cal_obj.origin,
+	cal_obj.lower_left_corner = vector_sub(vector_sub(vector_sub(cal_obj.origin,
 					vector_div_n(cal_obj.horizontal, 2)),
 				vector_div_n(cal_obj.vertical, 2)), vdata.w);
 	return (cal_obj);
