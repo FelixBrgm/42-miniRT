@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   hit_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvznuzda <pashavznuzdajev@gmail.com>       +#+  +:+       +#+        */
+/*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 00:05:57 by pvznuzda          #+#    #+#             */
-/*   Updated: 2022/11/21 00:06:42 by pvznuzda         ###   ########.fr       */
+/*   Updated: 2022/11/21 01:59:55 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
+#include "../../includes/render.h"
 
 t_obj_t	hit_closest_obj(t_data *data, t_ray ray)
 {

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   utils7.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvznuzda <pashavznuzdajev@gmail.com>       +#+  +:+       +#+        */
+/*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 22:00:15 by pvznuzda          #+#    #+#             */
-/*   Updated: 2022/11/20 22:20:42 by pvznuzda         ###   ########.fr       */
+/*   Updated: 2022/11/21 01:59:26 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
+#include "../../includes/parser.h"
 
 int	check_lines_util(t_list *line_list)
 {

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   utils5.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvznuzda <pashavznuzdajev@gmail.com>       +#+  +:+       +#+        */
+/*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 21:58:25 by pvznuzda          #+#    #+#             */
-/*   Updated: 2022/11/20 22:20:38 by pvznuzda         ###   ########.fr       */
+/*   Updated: 2022/11/21 01:59:20 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
+#include "../../includes/parser.h"
 
 int	check_ambient(char *line)
 {

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   utils6.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvznuzda <pashavznuzdajev@gmail.com>       +#+  +:+       +#+        */
+/*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 21:59:45 by pvznuzda          #+#    #+#             */
-/*   Updated: 2022/11/20 22:20:40 by pvznuzda         ###   ########.fr       */
+/*   Updated: 2022/11/21 01:59:23 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
+#include "../../includes/parser.h"
 
 int	check_sphere(char *line)
 {

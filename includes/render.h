@@ -6,7 +6,7 @@
 /*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 22:12:02 by fbruggem          #+#    #+#             */
-/*   Updated: 2022/11/21 00:29:02 by fbruggem         ###   ########.fr       */
+/*   Updated: 2022/11/21 01:53:08 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "miniRT.h"
 # include "vector.h"
+# include "colors.h"
+# include "object.h"
 
 typedef struct s_calculate
 {

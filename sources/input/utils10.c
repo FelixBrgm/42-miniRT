@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   utils10.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvznuzda <pashavznuzdajev@gmail.com>       +#+  +:+       +#+        */
+/*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 22:02:40 by pvznuzda          #+#    #+#             */
-/*   Updated: 2022/11/20 22:20:50 by pvznuzda         ###   ########.fr       */
+/*   Updated: 2022/11/21 01:59:33 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
+#include "../../includes/parser.h"
 
 int	parse_lines_util(t_data *data, t_list *line_list, int *obj_i)
 {
