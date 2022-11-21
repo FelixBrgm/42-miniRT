@@ -1,6 +1,5 @@
 CC := gcc
-
-# CFLAGS := -Wall -Werror -Wextra
+CFLAGS := -Wall -Werror -Wextra
 
 sources_path = $(addprefix ./sources/, $(sources))
 NAME := miniRT

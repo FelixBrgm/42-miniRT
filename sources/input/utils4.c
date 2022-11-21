@@ -6,7 +6,7 @@
 /*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 21:57:49 by pvznuzda          #+#    #+#             */
-/*   Updated: 2022/11/21 01:59:17 by fbruggem         ###   ########.fr       */
+/*   Updated: 2022/11/21 02:02:02 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int	check_color(char *color_line)
 {
 	char	**color_split;
 	int		i;
-	int		number;
 
 	color_split = ft_split(color_line, ',');
 	if (!color_split)

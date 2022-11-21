@@ -6,7 +6,7 @@
 /*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 11:54:33 by fbruggem          #+#    #+#             */
-/*   Updated: 2022/11/21 01:58:10 by fbruggem         ###   ########.fr       */
+/*   Updated: 2022/11/21 02:01:50 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1051,7 +1051,6 @@
 int	parse_input(t_data *data, int argc, char **argv)
 {
 	int		fd;
-	int		obj_count;
 	t_list	*line_list;
 
 	fd = check_arguments(argc, argv);

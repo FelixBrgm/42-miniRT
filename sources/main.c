@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvznuzda <pashavznuzdajev@gmail.com>       +#+  +:+       +#+        */
+/*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 00:17:36 by fbruggem          #+#    #+#             */
-/*   Updated: 2022/11/21 01:24:35 by pvznuzda         ###   ########.fr       */
+/*   Updated: 2022/11/21 02:04:25 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ int	main(int argc, char **argv)
 	if (!data)
 		return (0);
 	parser_res = parse_input(data, argc, argv);
-	ft_printf("parser_res = %i\n", parser_res);
 	if (parser_res != 0)
 	{
 		ft_printf("error in parser.\n");

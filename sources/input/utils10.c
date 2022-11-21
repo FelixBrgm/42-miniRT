@@ -6,7 +6,7 @@
 /*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 22:02:40 by pvznuzda          #+#    #+#             */
-/*   Updated: 2022/11/21 01:59:33 by fbruggem         ###   ########.fr       */
+/*   Updated: 2022/11/21 02:03:15 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	parse_lines_util(t_data *data, t_list *line_list, int *obj_i)
 	char	*identifier;
 	int		parse_res;
 
+	parse_res = 0;
 	identifier = get_identifier(line_list->content);
 	if (!identifier)
 		return (-1);

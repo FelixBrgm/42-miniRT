@@ -6,7 +6,7 @@
 /*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 22:00:15 by pvznuzda          #+#    #+#             */
-/*   Updated: 2022/11/21 01:59:26 by fbruggem         ###   ########.fr       */
+/*   Updated: 2022/11/21 02:03:01 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	check_lines_util(t_list *line_list)
 	char	*identifier;
 	int		check_res;
 
+	check_res = 0;
 	identifier = get_identifier(line_list->content);
 	if (!identifier)
 		return (-1);
@@ -39,9 +40,6 @@ int	check_lines_util(t_list *line_list)
 
 int	check_lines(t_list *line_list)
 {
-	char	*identifier;
-	int		check_res;
-
 	while (line_list)
 	{
 		if (check_lines_util(line_list) == -1)

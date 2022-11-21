@@ -6,7 +6,7 @@
 /*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 21:55:54 by pvznuzda          #+#    #+#             */
-/*   Updated: 2022/11/21 02:01:20 by fbruggem         ###   ########.fr       */
+/*   Updated: 2022/11/21 02:01:56 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ void	ft_atof_util(char *str, int i, float *result)
 float	ft_atof(char *str)
 {
 	int		i;
-	float	divider;
 	float	negative;
 	float	result;
 

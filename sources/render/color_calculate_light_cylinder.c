@@ -6,13 +6,13 @@
 /*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 22:44:29 by fbruggem          #+#    #+#             */
-/*   Updated: 2022/11/20 23:06:59 by fbruggem         ###   ########.fr       */
+/*   Updated: 2022/11/21 02:03:53 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/render.h"
 
-double	hit_ratio_cylinder_extra(t_cylinder cylinder,
+double	hit_ratio_cylinder_extra(
 			t_vector light_dir, t_obj_t closest);
 double	hit_ratio_cylinder_1(t_cylinder cylinder, t_vector light_dir);
 double	hit_ratio_cylinder_2(t_cylinder cylinder, t_vector light_dir);
@@ -23,7 +23,6 @@ double	hit_ratio_cylinder(t_data *data, t_obj_t closest)
 	t_vector	light_dir;
 	t_vector	top_center;
 	t_vector	bot_center;
-	t_vector	normal;
 
 	cylinder = *(closest.obj->cylinder);
 	light_dir = unit_vector(vector_sub(
@@ -39,7 +38,7 @@ double	hit_ratio_cylinder(t_data *data, t_obj_t closest)
 				closest.intersection, bot_center)) <= cylinder.radius)
 		return (hit_ratio_cylinder_2(cylinder, light_dir));
 	else
-		return (hit_ratio_cylinder_extra(cylinder, light_dir, closest));
+		return (hit_ratio_cylinder_extra(light_dir, closest));
 }
 
 double	hit_ratio_cylinder_1(t_cylinder cylinder, t_vector light_dir)
@@ -82,7 +81,7 @@ typedef struct s_extra
 	double		hit_ratio;
 }				t_extra;
 
-double	hit_ratio_cylinder_extra(t_cylinder cylinder,
+double	hit_ratio_cylinder_extra(
 	t_vector light_dir, t_obj_t closest)
 {
 	t_extra	extra;
