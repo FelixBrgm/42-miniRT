@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color_calculate_light.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pvznuzda <pashavznuzdajev@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 22:07:43 by fbruggem          #+#    #+#             */
-/*   Updated: 2022/11/21 00:03:49 by fbruggem         ###   ########.fr       */
+/*   Updated: 2022/11/21 01:32:47 by pvznuzda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,11 @@ t_color	calculate_colorious(t_data *data, t_obj_t closest, t_ray light_ray)
 	t_color	ambient_color;
 
 	color = get_color_of_object(*(closest.obj), light_ray);
+	color = color_mul_n(color, data->scene.light.brightness);
 	ambient_color = color_mul_n(data->scene.ambient.color,
 			data->scene.ambient.ratio);
 	color = color_div_n(color_add(color, ambient_color),
-			1 + data->scene.ambient.ratio);
+			data->scene.light.brightness + data->scene.ambient.ratio);
 	return (color);
 }
 
