@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pvznuzda <pashavznuzdajev@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 22:12:47 by fbruggem          #+#    #+#             */
-/*   Updated: 2022/11/20 22:17:43 by fbruggem         ###   ########.fr       */
+/*   Updated: 2022/11/21 00:42:20 by pvznuzda         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,6 @@ typedef struct s_data
 
 
 void	mlx_start(t_data *data);
+void	free_data(t_data *data, int ret);
 
 #endif
