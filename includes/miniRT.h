@@ -6,7 +6,7 @@
 /*   By: pvznuzda <pashavznuzdajev@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 22:12:47 by fbruggem          #+#    #+#             */
-/*   Updated: 2022/11/21 00:42:20 by pvznuzda         ###   ########.fr       */
+/*   Updated: 2022/11/21 00:28:35 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include "scene.h"
 # include "../libraries/libs/libs.h"
 # include "../libraries/mlxlib/include/MLX42/MLX42.h"
+# include "parser.h"
+# include "render.h"
 
 # ifndef WIDTH
 #  define WIDTH 1920
@@ -52,10 +54,6 @@ typedef struct s_data
 	t_color		**img;
 	int			pixel_samples;
 }				t_data;
-
-# include "parser.h"
-# include "render.h"
-
 
 void	mlx_start(t_data *data);
 void	free_data(t_data *data, int ret);

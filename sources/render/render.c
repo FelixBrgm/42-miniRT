@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   render.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/21 00:24:26 by fbruggem          #+#    #+#             */
+/*   Updated: 2022/11/21 00:24:41 by fbruggem         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/miniRT.h"
 #include "../../includes/render.h"
 
@@ -9,7 +21,6 @@ void	render(void *param)
 	t_data	*data;
 
 	data = param;
-	
 	calculate(data);
 	render_put_to_window(data);
 }
@@ -18,8 +29,7 @@ void	render_put_to_window(t_data *data)
 {
 	if (data->mlx_img)
 		mlx_delete_image(data->mlx, data->mlx_img);
-
-	data->mlx_img =  mlx_new_image(data->mlx, WIDTH, HEIGHT);
+	data->mlx_img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
 	render_convert_rgb_to_pixels(data);
 	mlx_image_to_window(data->mlx, data->mlx_img, 0, 0);
 }

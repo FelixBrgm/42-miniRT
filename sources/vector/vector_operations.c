@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vector_operations.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/21 00:25:00 by fbruggem          #+#    #+#             */
+/*   Updated: 2022/11/21 00:25:01 by fbruggem         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/vector.h"
 
 t_vector	vector_add(t_vector v1, t_vector v2)
@@ -38,7 +50,7 @@ t_vector	vector_mul_n(t_vector v, double n)
 	return (v);
 }
 
-t_vector		vector_div_n(t_vector v, double n)
+t_vector	vector_div_n(t_vector v, double n)
 {
-	return (vector_mul_n(v, 1/n));
+	return (vector_mul_n(v, 1 / n));
 }

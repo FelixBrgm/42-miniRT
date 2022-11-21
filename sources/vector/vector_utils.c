@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   vector_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/21 00:25:28 by fbruggem          #+#    #+#             */
+/*   Updated: 2022/11/21 00:27:55 by fbruggem         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/vector.h"
 
 /**
@@ -14,9 +26,9 @@ double	vector_dot(t_vector v1, t_vector v2)
 	return (dot);
 }
 
-t_vector vector_cross(t_vector v1, t_vector v2)
+t_vector	vector_cross(t_vector v1, t_vector v2)
 {
-	t_vector res;
+	t_vector	res;
 
 	res.x = ((v1.y * v2.z) - (v1.z * v2.y));
 	res.y = ((v1.z * v2.x) - (v1.x * v2.z));
@@ -24,22 +36,20 @@ t_vector vector_cross(t_vector v1, t_vector v2)
 	return (res);
 }
 
-
 t_vector	unit_vector(t_vector v)
 {
-	return vector_div_n(v, vector_length(v));
+	return (vector_div_n(v, vector_length(v)));
 }
 
-double		vector_length(t_vector v)
+double	vector_length(t_vector v)
 {
-	// return sqrt(vector_dot(v, v));
 	return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
 }
 
-
-t_vector vector_create(double x, double y, double z)
+t_vector	vector_create(double x, double y, double z)
 {
-	t_vector vector;
+	t_vector	vector;
+
 	vector.x = x;
 	vector.y = y;
 	vector.z = z;
