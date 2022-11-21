@@ -6,7 +6,7 @@
 /*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 21:55:54 by pvznuzda          #+#    #+#             */
-/*   Updated: 2022/11/21 01:58:59 by fbruggem         ###   ########.fr       */
+/*   Updated: 2022/11/21 02:01:20 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ int	check_identifiers(t_list *line_list)
 			return (-1);
 		line_list = line_list->next;
 	}
-	if (identifier_count[0] > 1 || identifier_count[1] > 1
-		|| identifier_count[2] > 1)
+	if (identifier_count[0] != 1 || identifier_count[1] != 1
+		|| identifier_count[2] != 1)
 		return (-1);
 	return (identifier_count[3]);
 }

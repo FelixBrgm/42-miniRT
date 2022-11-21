@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pvznuzda <pashavznuzdajev@gmail.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 22:12:47 by fbruggem          #+#    #+#             */
 /*   Updated: 2022/11/21 01:57:07 by fbruggem         ###   ########.fr       */
