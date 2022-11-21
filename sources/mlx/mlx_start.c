@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   mlx_start.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvznuzda <pashavznuzdajev@gmail.com>       +#+  +:+       +#+        */
+/*   By: fbruggem <fbruggem@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 12:17:27 by fbruggem          #+#    #+#             */
-/*   Updated: 2022/11/21 01:21:24 by pvznuzda         ###   ########.fr       */
+/*   Updated: 2022/11/21 02:05:35 by fbruggem         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/miniRT.h"
 #include "../../includes/render.h"
 
-void   detect_key(struct mlx_key_data khit, void *data)
+void	detect_key(struct mlx_key_data khit, void *data)
 {
 	if (khit.key == 256)
 	{
